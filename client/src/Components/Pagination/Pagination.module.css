@@ -1,0 +1,183 @@
+/* components/Pagination/Pagination.module.css */
+
+.paginationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 25px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.resultsInfo {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+  text-align: center;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 🔧 UPDATED: Navigation buttons (Previous/Next) with #3D3DA5 color */
+.navButton {
+  min-width: 70px;
+  font-weight: 500;
+  background-color: transparent !important;
+  border: 1px solid #3D3DA5 !important;
+  color: #3D3DA5 !important;
+  transition: all 0.3s ease;
+}
+
+.navButton:hover:not(:disabled) {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  color: white !important;
+}
+
+.navButton:focus {
+  box-shadow: 0 0 0 3px rgba(61, 61, 165, 0.3) !important;
+  border-color: #3D3DA5 !important;
+}
+
+.navButton:disabled {
+  background-color: #f8f9fa !important;
+  border-color: #dee2e6 !important;
+  color: #6c757d !important;
+  opacity: 0.65;
+}
+
+/* 🔧 UPDATED: Page number buttons with #3D3DA5 color */
+.pageButton {
+  min-width: 35px;
+  font-weight: 500;
+  background-color: transparent !important;
+  border: 1px solid #3D3DA5 !important;
+  color: #3D3DA5 !important;
+  transition: all 0.3s ease;
+}
+
+.pageButton:hover:not(:disabled) {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  color: white !important;
+}
+
+.pageButton:focus {
+  box-shadow: 0 0 0 3px rgba(61, 61, 165, 0.3) !important;
+  border-color: #3D3DA5 !important;
+}
+
+/* 🔧 UPDATED: Active page button */
+.pageButton.active {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  color: white !important;
+}
+
+.pageButton.active:hover {
+  background-color: #2E2E7D !important;
+  border-color: #2E2E7D !important;
+  color: white !important;
+}
+
+.pageButton.active:focus {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  box-shadow: 0 0 0 3px rgba(61, 61, 165, 0.3) !important;
+  color: white !important;
+}
+
+.ellipsis {
+  padding: 0 8px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Override Bootstrap button styles */
+.navButton.btn-outline-primary,
+.pageButton.btn-outline-primary {
+  background-color: transparent !important;
+  border-color: #3D3DA5 !important;
+  color: #3D3DA5 !important;
+}
+
+.navButton.btn-outline-primary:hover,
+.pageButton.btn-outline-primary:hover {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  color: white !important;
+}
+
+.pageButton.btn-primary {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  color: white !important;
+}
+
+.pageButton.btn-primary:hover {
+  background-color: #2E2E7D !important;
+  border-color: #2E2E7D !important;
+  color: white !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .paginationContainer {
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .paginationControls {
+    gap: 6px;
+  }
+  
+  .navButton {
+    min-width: 60px;
+    font-size: 13px;
+  }
+  
+  .pageButton {
+    min-width: 30px;
+    font-size: 13px;
+  }
+  
+  .resultsInfo {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .paginationContainer {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .paginationControls {
+    gap: 4px;
+  }
+  
+  .navButton {
+    min-width: 55px;
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .pageButton {
+    min-width: 28px;
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+  
+  .resultsInfo {
+    font-size: 12px;
+  }
+}
