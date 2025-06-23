@@ -1,0 +1,137 @@
+.landingPageContainer {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.leftContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.loginForm {
+  width: 100%;
+  max-width: 400px;
+}
+
+.loginSubtitle {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: #f39228;
+  margin-left: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: #f39228;
+}
+
+.passwordContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  padding-right: 2.5rem;
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  font-size: 1rem;
+}
+
+.loginSubmitBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #f39228;
+  border-color: #f39228;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: opacity 0.3s ease;
+}
+
+.loginSubmitBtn:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.forgotPassword {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.loginLink {
+  color: #f39228;
+  text-decoration: none;
+}
+
+.rightWrapper {
+  flex: 1.5;
+  position: relative;
+  background: url('../../assets//images/10001-Dz9-Dzkc.jpg') no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightWrapperOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.rightWrapperContent {
+  color: white;
+  position: relative;
+  padding: 2rem;
+  max-width: 600px;
+}
+
+.iconContainer {
+  margin-bottom: 1.5rem;
+}
+
+.mainHeading {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.highlightText {
+  color: #f39228;
+}
+
+.description p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
