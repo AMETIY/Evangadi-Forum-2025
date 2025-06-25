@@ -1,0 +1,179 @@
+.askContainer {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  gap: 30px;
+}
+
+/* Box Section Base Style (used for guidelines & form) */
+.guidelines,
+.formSection {
+  background-color: #fdfdfd; /* Soft white */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  padding: 25px;
+}
+
+/* Guidelines */
+.guidelines h2 {
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.guidelines ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.guidelines li {
+  padding: 8px 0;
+  color: #555;
+  border-bottom: 1px solid #eee;
+}
+
+.guidelines li:last-child {
+  border-bottom: none;
+}
+
+/* Form */
+.formSection h1 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-weight: 600;
+  color: #222;
+}
+
+.required {
+  color: #d33;
+}
+
+.input,
+.textarea,
+.select {
+  padding: 12px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.select {
+  cursor: pointer;
+  background: white;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.resetBtn,
+.submitBtn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.resetBtn {
+  background: #6c757d;
+  color: white;
+}
+
+.submitBtn {
+  background: #007bff;
+  color: white;
+  min-width: 140px;
+}
+
+.resetBtn:hover,
+.submitBtn:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.submitBtn:disabled,
+.resetBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    padding: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .resetBtn,
+  .submitBtn {
+    width: 100%;
+  }
+}

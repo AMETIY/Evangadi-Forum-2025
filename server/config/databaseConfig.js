@@ -10,7 +10,6 @@ const dbconfig = {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-
 }
 
 // Creating connection pool

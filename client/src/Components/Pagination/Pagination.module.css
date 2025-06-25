@@ -1,5 +1,3 @@
-/* components/Pagination/Pagination.module.css */
-
 .paginationContainer {
   display: flex;
   flex-direction: column;
@@ -27,7 +25,7 @@
   justify-content: center;
 }
 
-/* 🔧 UPDATED: Navigation buttons (Previous/Next) with #3D3DA5 color */
+/* Navigation buttons (Previous/Next) */
 .navButton {
   min-width: 70px;
   font-weight: 500;
@@ -55,7 +53,7 @@
   opacity: 0.65;
 }
 
-/* 🔧 UPDATED: Page number buttons with #3D3DA5 color */
+/* Page number buttons with */
 .pageButton {
   min-width: 35px;
   font-weight: 500;
@@ -76,7 +74,7 @@
   border-color: #3D3DA5 !important;
 }
 
-/* 🔧 UPDATED: Active page button */
+
 .pageButton.active {
   background-color: #3D3DA5 !important;
   border-color: #3D3DA5 !important;

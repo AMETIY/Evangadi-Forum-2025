@@ -12,10 +12,8 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
  
 //  Register a New User
  export const register = async (req, res) => {
-    console.log("👉 Raw body:", req.body?.email || req.body?.username); // 🪵 This will help debug
        
     let connection;
-    
 
     
     try{
@@ -37,8 +35,6 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
         };
         
         // Password length check
-        //  console.log('password received', password);
-        //  console.log('password length', password?.length);
         if (!password || password.trim().length < 8) {
             return res.status(StatusCodes.BAD_REQUEST).json({msg: 'Password must be at least 8 characters'});
         };
@@ -101,7 +97,6 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
             },
             token
         });
-            console.log('user registered Successfully')
 
 
     }catch (err) {
@@ -111,7 +106,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
                 await connection.rollback();
 
             }catch(rollbackErr){
-                console.error('Rollbach error:', rollbackErr)
+                console.error('Rollback error:', rollbackErr)
 
             }
         }
@@ -142,7 +137,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
          connection = await pool.getConnection();
         
         const {email, password} = req.body;
-        console.log("req.body received:", req.body)
+       
 
         //Input Validation
     if (!email || !password) {
@@ -173,7 +168,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
 
 
         // ✅ Success response (WITH OUT THE password)
-        res.status(StatusCodes.OK).json({
+         res.status(StatusCodes.OK).json({
             success: true,
             message: "Login successful",
             user: {
@@ -186,7 +181,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
             token
         });
 
-        console.log(`User logged in: ${user.username} (ID: ${user.user_id})`);
+   
 
 
     }catch (err) {

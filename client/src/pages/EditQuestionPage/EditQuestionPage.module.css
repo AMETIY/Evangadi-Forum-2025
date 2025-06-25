@@ -1,0 +1,10 @@
+.edit{
+      min-height: 100vh;
+  padding: 20px;
+   background-image: url('../../assets/images/backgound_graphics.png');
+   background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: transparent; /* Remove background */
+}

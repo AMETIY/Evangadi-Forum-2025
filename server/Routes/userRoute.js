@@ -11,3 +11,4 @@ router.post('/login', loginLimiter, login)
 router.get('/checkUser',profileLimiter, authenticateToken, checkUser)
 
 export default router
+

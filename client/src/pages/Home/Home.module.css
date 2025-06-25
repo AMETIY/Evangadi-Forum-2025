@@ -1,0 +1,728 @@
+
+.homeContainer {
+  min-height: calc(100vh - 70px);
+  background-color: #ffffff;
+  padding: 2rem 0;
+}
+
+.homeContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Loading Container */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 1rem;
+}
+
+.loadingText {
+  color: #6c757d;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Top Section */
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+/* Ask Question Button */
+.askQuestionBtn {
+  background-color: #3D3DA5 !important;
+  border: 1px solid #3D3DA5 !important;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: white !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(61, 61, 165, 0.3);
+}
+
+.askQuestionBtn:hover {
+  background-color: #2E2E7D !important;
+  border-color: #2E2E7D !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(61, 61, 165, 0.4);
+  color: white !important;
+}
+
+.askQuestionBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(61, 61, 165, 0.3) !important;
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  color: white !important;
+}
+
+.askQuestionBtn:active {
+  background-color: #2E2E7D !important;
+  border-color: #2E2E7D !important;
+  color: white !important;
+}
+
+.welcomeMessage {
+  font-size: 1.1rem;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+/* Questions Section */
+.questionsSection {
+  width: 100%;
+}
+
+.questionsTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.errorMessage {
+  background-color: #fed7d7;
+  color: #c53030;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.noQuestions {
+  text-align: center;
+  padding: 3rem 0;
+  color: #718096;
+}
+
+.noQuestions p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Questions List Container */
+.questionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* pagination styles */
+.questionsSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.pageInfo {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+  background-color: #f8f9fa;
+  padding: 6px 12px;
+  border-radius: 15px;
+  border: 1px solid #dee2e6;
+}
+
+.errorAlert {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noQuestions {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+  margin: 20px 0;
+}
+
+.noQuestions h4 {
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.noQuestions p {
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.noQuestions .btn-primary {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  color: white !important;
+}
+
+.noQuestions .btn-primary:hover {
+  background-color: #2E2E7D !important;
+  border-color: #2E2E7D !important;
+  color: white !important;
+}
+
+.noQuestions .btn-primary:focus {
+  background-color: #3D3DA5 !important;
+  border-color: #3D3DA5 !important;
+  box-shadow: 0 0 0 3px rgba(61, 61, 165, 0.3) !important;
+  color: white !important;
+}
+
+/* Loading container improvements */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.loadingContainer .spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+
+/* Search Container Styles */
+.searchContainer {
+  margin-bottom: 2rem;
+}
+
+.searchForm {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.searchInput {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px 0 0 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #3D3DA5;
+  box-shadow: 0 0 0 3px rgba(61, 61, 165, 0.1);
+  outline: none;
+}
+
+.searchButton {
+  background-color: #3D3DA5 !important;
+  border: 2px solid #3D3DA5 !important;
+  color: white !important;
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.searchButton:hover:not(:disabled) {
+  background-color: #2E2E7D !important;
+  border-color: #2E2E7D !important;
+  color: white !important;
+}
+
+.searchButton:focus {
+  box-shadow: 0 0 0 3px rgba(61, 61, 165, 0.3) !important;
+}
+
+.clearButton {
+  border: 2px solid #e2e8f0;
+  border-left: none;
+  border-right: none;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.clearButton:hover {
+  background-color: #e9ecef;
+  color: #495057;
+  border-color: #dee2e6;
+}
+
+.searchResultsInfo {
+  background-color: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #1565c0;
+  text-align: center;
+}
+
+.searchResultsInfo p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.searchLoadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+}
+
+.searchLoadingContainer p {
+  color: #6c757d;
+  margin: 0;
+  font-weight: 500;
+}
+
+.noQuestionsActions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+
+/* RESPONSIVE: Search styles */
+@media (max-width: 767px) and (min-width: 576px) {
+  .homeContainer {
+    padding: 1.25rem 0;
+  }
+  
+  .homeContent {
+    padding: 0 1.25rem;
+  }
+  
+  .topSection {
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    align-items: stretch;
+  }
+  
+  .askQuestionBtn {
+    width: 100%;
+    order: 2;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  .welcomeMessage {
+    order: 1;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  .questionsTitle {
+    font-size: 1.625rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .searchForm {
+    max-width: 100%;
+  }
+  
+  .searchInput {
+    font-size: 16px; 
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .searchButton,
+  .clearButton {
+    padding: 0.625rem 0.75rem;
+  }
+  
+  .searchContainer {
+    margin-bottom: 1.75rem;
+  }
+  
+  .searchResultsInfo {
+    padding: 0.625rem;
+    font-size: 0.95rem;
+  }
+  
+  .questionsSectionHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .pageInfo {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+  
+  .errorAlert {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .noQuestions {
+    padding: 35px 20px;
+  }
+  
+  .noQuestionsActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .noQuestionsActions .btn {
+    width: 100%;
+    max-width: 250px;
+  }
+  
+  .loadingContainer {
+    min-height: 350px;
+    padding: 1rem;
+  }
+}
+
+/* Standard Mobile devices  */
+@media (max-width: 575px) and (min-width: 481px) {
+  .homeContainer {
+    padding: 1rem 0;
+  }
+  
+  .homeContent {
+    padding: 0 1rem;
+  }
+  
+  .topSection {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    align-items: stretch;
+  }
+  
+  .askQuestionBtn {
+    width: 100%;
+    order: 2;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .welcomeMessage {
+    order: 1;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  
+  .questionsTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .searchContainer {
+    margin-bottom: 1.5rem;
+  }
+  
+  .searchInput,
+  .searchButton,
+  .clearButton {
+    padding: 0.625rem 0.75rem;
+    font-size: 15px;
+  }
+  
+  .searchInput {
+    font-size: 16px; 
+  }
+  
+  .searchResultsInfo {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .questionsSectionHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .pageInfo {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .errorAlert {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .noQuestions {
+    padding: 30px 15px;
+  }
+  
+  .noQuestions h4 {
+    font-size: 1.125rem;
+  }
+  
+  .noQuestions p {
+    font-size: 0.9rem;
+  }
+  
+  .noQuestionsActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .noQuestionsActions .btn {
+    width: 100%;
+    max-width: 220px;
+    font-size: 0.9rem;
+  }
+  
+  .searchLoadingContainer {
+    padding: 2.5rem 1rem;
+  }
+  
+  .loadingContainer {
+    min-height: 320px;
+    padding: 1rem;
+  }
+}
+
+/* Small Mobile devices  */
+@media (max-width: 480px) and (min-width: 321px) {
+  .homeContainer {
+    padding: 0.875rem 0;
+  }
+  
+  .homeContent {
+    padding: 0 0.875rem;
+  }
+  
+  .topSection {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: stretch;
+  }
+  
+  .askQuestionBtn {
+    width: 100%;
+    order: 2;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .welcomeMessage {
+    order: 1;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  .questionsTitle {
+    font-size: 1.375rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  
+  .searchContainer {
+    margin-bottom: 1.5rem;
+  }
+  
+  .searchInput,
+  .searchButton,
+  .clearButton {
+    padding: 0.625rem;
+    font-size: 14px;
+  }
+  
+  .searchInput {
+    font-size: 16px; 
+  }
+  
+  .searchResultsInfo {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .questionsSectionHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .pageInfo {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .errorAlert {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    font-size: 0.875rem;
+  }
+  
+  .noQuestions {
+    padding: 25px 12px;
+  }
+  
+  .noQuestions h4 {
+    font-size: 1.1rem;
+  }
+  
+  .noQuestions p {
+    font-size: 0.875rem;
+  }
+  
+  .noQuestionsActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .noQuestionsActions .btn {
+    width: 100%;
+    max-width: 200px;
+    font-size: 0.875rem;
+  }
+  
+  .searchLoadingContainer {
+    padding: 2rem 1rem;
+  }
+  
+  .loadingContainer {
+    min-height: 300px;
+    padding: 0.875rem;
+  }
+}
+
+/* Extra Small Mobile devices  */
+@media (max-width: 320px) {
+  .homeContainer {
+    padding: 0.75rem 0;
+  }
+  
+  .homeContent {
+    padding: 0 0.75rem;
+  }
+  
+  .topSection {
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+    align-items: stretch;
+  }
+  
+  .askQuestionBtn {
+    width: 100%;
+    order: 2;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+  }
+  
+  .welcomeMessage {
+    order: 1;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+  
+  .questionsTitle {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .searchContainer {
+    margin-bottom: 1.25rem;
+  }
+  
+  .searchInput,
+  .searchButton,
+  .clearButton {
+    padding: 0.5rem;
+    font-size: 13px;
+  }
+  
+  .searchInput {
+    font-size: 16px; 
+  }
+  
+  .searchResultsInfo {
+    padding: 0.4rem;
+    font-size: 0.8125rem;
+  }
+  
+  .questionsSectionHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .pageInfo {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+  
+  .errorAlert {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+  }
+  
+  .noQuestions {
+    padding: 20px 10px;
+  }
+  
+  .noQuestions h4 {
+    font-size: 1rem;
+  }
+  
+  .noQuestions p {
+    font-size: 0.8125rem;
+  }
+  
+  .noQuestionsActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+  }
+  
+  .noQuestionsActions .btn {
+    width: 100%;
+    max-width: 180px;
+    font-size: 0.8125rem;
+    padding: 0.625rem 0.5rem;
+  }
+  
+  .searchLoadingContainer {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .loadingContainer {
+    min-height: 250px;
+    padding: 0.75rem;
+  }
+  
+  .loadingContainer .spinner-border {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

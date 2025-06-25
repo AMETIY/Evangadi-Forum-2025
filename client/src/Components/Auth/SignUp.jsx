@@ -19,13 +19,13 @@ const SignUp = ({ toggleAuthMode }) => {
   const navigate = useNavigate();
 
   //Simple Message
-  const showStatus = (message, type) => {
+  const showStatus = (message, type = "error") => {
     setStatus({ message, type });
 
     //Auto clear Status after 5 secs
-    setTimeout(() => {
-      setStatus({ message: "", type: "" });
-    }, 5000);
+    // setTimeout(() => {
+    //   setStatus({ message: "", type: "" });
+    // }, 5000);
   };
 
   //Form Validation Function
@@ -37,14 +37,39 @@ const SignUp = ({ toggleAuthMode }) => {
     const password = passwordRef.current.value;
 
     //CHECKING FOR EMPTY FELIDS
-    if (!email || !password || !userName || !firstName || !lastName) {
-      showStatus("Please Enter All the required fields ", "error");
+
+    if (!email) {
+      showStatus("Please Enter Your Email ", "error");
+      emailRef.current.focus();
+      return false;
+    }
+
+    if (!password) {
+      showStatus("Please Enter Your Password", "error");
+      passwordRef.current.focus();
       return false;
     }
 
     // Password length validation
     if (password.length < 8) {
       showStatus("Password must be at least 8 characters long", "error");
+      return false;
+    }
+
+    if (!userName) {
+      showStatus("Please Enter Your User Name ", "error");
+      usernameRef.current.focus();
+      return false;
+    }
+
+    if (!firstName) {
+      showStatus("Please Enter Your First Name", "error");
+      firstNameRef.current.focus();
+      return false;
+    }
+    if (!lastName) {
+      showStatus("Please Enter Your Last Name", "error");
+      lastNameRef.current.focus();
       return false;
     }
 
@@ -56,7 +81,7 @@ const SignUp = ({ toggleAuthMode }) => {
     setStatus({ message: "", type: "" });
 
     if (!validateForm()) return;
-  
+
     const userData = {
       first_name: firstNameRef.current.value.trim(),
       last_name: lastNameRef.current.value.trim(),
@@ -72,8 +97,16 @@ const SignUp = ({ toggleAuthMode }) => {
 
       if (result.success) {
         showStatus("User registered successfully", "success");
+
+        // Clearing the form
+        usernameRef.current.value = "";
+        firstNameRef.current.value = "";
+        lastNameRef.current.value = "";
+        emailRef.current.value = "";
+        passwordRef.current.value = "";
+
         setTimeout(() => {
-          navigate("/auth"); // redirect to login
+          toggleAuthMode(); // redirect to login
         }, 1500);
       } else {
         showStatus(
@@ -98,22 +131,31 @@ const SignUp = ({ toggleAuthMode }) => {
             Already have an account?
             <Button
               type="button"
-                onClick={toggleAuthMode}
-                variant="primary"
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#dc3545",
-                  cursor: "pointer",
-                  textDecoration: "underline"
-                }}
+              onClick={toggleAuthMode}
+              variant="primary"
+              style={{
+                background: "none",
+                border: "none",
+                color: "#dc3545",
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
             >
               Sign in
             </Button>
           </p>
 
           {status.message && (
-            <Alert variant={status.type === "error" ? "danger" : "success"}>
+            <Alert
+              variant={
+                status.type === "error"
+                  ? "danger"
+                  : status.type === "success"
+                  ? "success"
+                  : "info"
+              }
+              className="mb-3"
+            >
               {status.message}
             </Alert>
           )}
@@ -181,7 +223,7 @@ const SignUp = ({ toggleAuthMode }) => {
               />
             </div>
 
-            <Button
+            <button
               type="submit"
               className={styles.authSubmitBtn}
               disabled={loading}
@@ -193,7 +235,7 @@ const SignUp = ({ toggleAuthMode }) => {
               ) : (
                 "Agree and Join"
               )}
-            </Button>
+            </button>
           </form>
 
           <p className={styles.terms}>

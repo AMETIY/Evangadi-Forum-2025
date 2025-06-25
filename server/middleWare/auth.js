@@ -6,7 +6,11 @@ export const authenticateToken = async (req, res, next) =>{
 
      // Check for Authorization header
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Access denied. No token provided.' });
+      return res.status(StatusCodes.UNAUTHORIZED).json({ 
+        success: false,
+        error: 'Access denied. No token provided.',
+        message: 'Access denied. No valid token provided.' 
+    });
     };
 
 
@@ -14,22 +18,56 @@ export const authenticateToken = async (req, res, next) =>{
      const token = authHeader && authHeader.split(' ')[1]; 
 
      if (!token) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ status: 401, error: 'Access token is required' });
+        return res.status(StatusCodes.UNAUTHORIZED).json({ 
+            success: false, 
+            error: 'Access token is required',
+            message: 'Access token is required' 
+        });
     }
 
 
-    try{
-        const decoded = verifyToken(token);
-        // return res.status(StatusCodes.OK).json({msg: decoded})
-        req.user = decoded; // Attach decoded user data (user_id, username, email) to req
-        next(); 
+    
+        const tokenResult = verifyToken(token);  //calling our verifyToken() back in jwt
 
-    }catch (err) {
-        console.error('Token verification error:', err.message);
-        if (err.name === 'TokenExpiredError') {
-            return res.status(StatusCodes.FORBIDDEN).json({ status: 403, error: 'Token has expired' });
+        if (!tokenResult.success) {
+            console.error('Token verification error:', tokenResult.message)
+
+            if (tokenResult.error === 'TOKEN_EXPIRED') {
+
+             return res.status(StatusCodes.UNAUTHORIZED).json({ 
+                success: false,
+                error: 'TOKEN_EXPIRED',
+                message: 'Your session has expired. Please login again.',
+                shouldLogout: true  // Signal to frontend to logout
+            });
         }
-        return res.status(StatusCodes.FORBIDDEN).json({ status: 403, error: 'Invalid token' });
 
-    }
+         if (tokenResult.error === 'INVALID_TOKEN') {
+            return res.status(StatusCodes.FORBIDDEN).json({ 
+                success: false,
+                error: 'INVALID_TOKEN',
+                message: 'Invalid authentication token.',
+                shouldLogout: true  
+            });
+        }
+
+        return res.status(StatusCodes.FORBIDDEN).json({
+            success: false,
+            error: 'TOKEN_ERROR',
+            message: 'Authentication failed.',
+            shouldLogout: true 
+        })
+        }
+
+        
+
+          
+          req.user = tokenResult.decoded; // Attach decoded user data (user_id, username, email) to request
+          req.tokenInfo = {
+            isValid: true,
+            expiresAt: tokenResult.decoded.exp
+          }
+
+          next(); 
+          
 }
