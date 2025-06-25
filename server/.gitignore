@@ -1,4 +1,5 @@
 .env
+render.yaml
 
 node_modules/
 
