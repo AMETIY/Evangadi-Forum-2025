@@ -59,11 +59,9 @@
 
 /* User Info */
 .userInfo {
-  font-weight: 500;
-  color: #007bff;
-  position: relative;
-  margin-right: 1rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .avatarIcon {
@@ -85,19 +83,38 @@
   z-index: 2;
 }
 
-.red {
-  background-color: #f44336;
+.avatarLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.statusDot {
+  position: absolute;
+  left: 32px;
+  bottom: -6px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  z-index: 2;
 }
 
 .green {
-  background-color: #4caf50;
+  background: #28c76f;
+}
+
+.red {
+  background: #e74c3c;
 }
 
 .welcomeText {
-  font-size: 0.85rem;
-  margin-top: 4px;
-  color: #333;
+  font-size: 1rem;
   font-weight: 500;
+  color: #333;
+  margin-left: 0.5rem;
 }
 
 /*Buttons */

@@ -11,9 +11,7 @@ function LandingPage() {
             Bypass the Industrial, <br /> Dive into the Digital!
           </h2>
           <p>
-            Before us is a golden opportunity, demanding us to take a bold step
-            forward and join the new digital era. Join Evangadi Networks Q&A platform
-            and connect with developers worldwide.
+          We stand at the edge of a golden opportunity — it's time to take a bold step into the digital future. Join the Evangadi Networks Q&A platform and connect with developers across the globe.
           </p>
           <div className={classes.linkDiv}>
             {/* Updated links to work with your auth system */}

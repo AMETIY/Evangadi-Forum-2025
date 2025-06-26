@@ -12,6 +12,7 @@ import EditQuestionPage from "./pages/EditQuestionPage/EditQuestionPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 
 //Protected Route Component
 const ProtectedRoute = ({ children, msg }) => {
@@ -19,9 +20,21 @@ const ProtectedRoute = ({ children, msg }) => {
 
   if (loading) {
     return (
-      <Spinner animation="border" variant="success" size="lg" role="status">
-        Loading...
-      </Spinner>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          width: "100vw",
+          background: "rgba(255,255,255,0.7)",
+          zIndex: 9999,
+        }}
+      >
+        <Spinner animation="border" variant="success" size="lg" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
     );
   }
 
@@ -34,9 +47,21 @@ const PublicRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <Spinner animation="border" variant="success" size="lg" role="status">
-        Loading...
-      </Spinner>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          width: "100vw",
+          background: "rgba(255,255,255,0.7)",
+          zIndex: 9999,
+        }}
+      >
+        <Spinner animation="border" variant="success" size="lg" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
     );
   }
 
@@ -47,9 +72,21 @@ const Router = () => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) {
     return (
-      <Spinner animation="border" variant="success" size="lg" role="status">
-        Loading...
-      </Spinner>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          width: "100vw",
+          background: "rgba(255,255,255,0.7)",
+          zIndex: 9999,
+        }}
+      >
+        <Spinner animation="border" variant="success" size="lg" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
     );
   }
   return (
@@ -106,6 +143,14 @@ const Router = () => {
               element={
                 <ProtectedRoute>
                   <EditQuestionPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
                 </ProtectedRoute>
               }
             />

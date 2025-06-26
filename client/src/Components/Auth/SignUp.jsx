@@ -21,11 +21,11 @@ const SignUp = ({ toggleAuthMode }) => {
   //Simple Message
   const showStatus = (message, type = "error") => {
     setStatus({ message, type });
-
-    //Auto clear Status after 5 secs
-    // setTimeout(() => {
-    //   setStatus({ message: "", type: "" });
-    // }, 5000);
+    if (type !== "error") {
+      setTimeout(() => {
+        setStatus({ message: "", type: "" });
+      }, 5000);
+    }
   };
 
   //Form Validation Function
@@ -78,8 +78,6 @@ const SignUp = ({ toggleAuthMode }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ message: "", type: "" });
-
     if (!validateForm()) return;
 
     const userData = {
@@ -113,7 +111,8 @@ const SignUp = ({ toggleAuthMode }) => {
         }, 1500);
       } else {
         showStatus(
-          result.error || "Registration failed. Please try again later."
+          result.error || "Registration failed. Please try again later.",
+          "error"
         );
       }
     } catch (err) {
@@ -134,7 +133,10 @@ const SignUp = ({ toggleAuthMode }) => {
             Already have an account?
             <Button
               type="button"
-              onClick={toggleAuthMode}
+              onClick={() => {
+                setStatus({ message: "", type: "" });
+                toggleAuthMode();
+              }}
               variant="primary"
               style={{
                 background: "none",
@@ -158,6 +160,8 @@ const SignUp = ({ toggleAuthMode }) => {
                   : "info"
               }
               className="mb-3"
+              dismissible={status.type !== "error"}
+              onClose={() => setStatus({ message: "", type: "" })}
             >
               {status.message}
             </Alert>

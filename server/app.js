@@ -10,7 +10,7 @@ import answerRoute from "./Routes/answerRoute.js";
 import passwordResetRoutes from "./Routes/passwordResetRoutes.js";
 import { testEmailSetup } from "./services/emailService.js";
 import { cleanupExpiredTokens } from "./controllers/passwordResetController.js";
-
+import profileRoutes from "./Routes/profileRoute.js";
 const app = express();
 const port = process.env.PORT || 5500;
 
@@ -47,6 +47,7 @@ app.use(express.json());
 app.use("/api/auth", userRoute);
 app.use("/api/questions", questionRoute);
 app.use("/api/answers", answerRoute);
+app.use("/api/profile", profileRoutes);
 app.use("/api/auth", passwordResetRoutes);
 
 // Test email endpoint (remove in production)

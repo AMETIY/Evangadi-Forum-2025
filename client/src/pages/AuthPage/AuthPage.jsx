@@ -30,7 +30,13 @@ const AuthPage = () => {
   // Accept an optional message to show on login
   const toggleAuthMode = (message = "") => {
     setIsLogin((prev) => !prev);
-    setLoginSuccessMessage(message);
+    if (isLogin) {
+      // Going from Login to SignUp: clear message
+      setLoginSuccessMessage("");
+    } else {
+      // Going from SignUp to Login: set message (if any)
+      setLoginSuccessMessage(message);
+    }
   };
 
   if (loading) return null;
