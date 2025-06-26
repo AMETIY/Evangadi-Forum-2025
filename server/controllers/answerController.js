@@ -1,14 +1,9 @@
-import pool from "../config/databaseConfig.js";
+import db from "../config/dbConnection.js";  // My Universal adapter
 import { StatusCodes } from "http-status-codes";
-
 
 //POST a New Answer to a question(protected route)
 export const postAnswer = async (req, res) => {
-    let connection;
-
     try{
-        connection = await pool.getConnection();
-
         // Validating of user(req.user) from JWT middleware
         if (!req.user || !req.user.user_id){
             return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -29,27 +24,27 @@ export const postAnswer = async (req, res) => {
         }
 
         // Validating request body
-    if (!req.body) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        success: false,
-        status: 400,
-        error: "Request body is missing",
-      });
-    }
+        if (!req.body) {
+            return res.status(StatusCodes.BAD_REQUEST).json({
+                success: false,
+                status: 400,
+                error: "Request body is missing",
+            });
+        }
 
-    // Extracting and Trim input value
-    const answer = req.body.answer?.trim();
-    const questionId = parseInt(req.body.question_id);
+        // Extracting and Trim input value
+        const answer = req.body.answer?.trim();
+        const questionId = parseInt(req.body.question_id);
 
-    if (!answer || !questionId) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-            success: false,
-            status: 400,
-            error: 'Please provide all required fields(question_id and answer)'
-        });
-    }
+        if (!answer || !questionId) {
+            return res.status(StatusCodes.BAD_REQUEST).json({
+                success: false,
+                status: 400,
+                error: 'Please provide all required fields(question_id and answer)'
+            });
+        }
 
-    if (isNaN(questionId)) {
+        if (isNaN(questionId)) {
             return res.status(StatusCodes.BAD_REQUEST).json({
                 success: false,
                 status: 400,
@@ -57,8 +52,7 @@ export const postAnswer = async (req, res) => {
             });
         }
 
-
-        // Validating answer length (here answers can be longer than questions)
+        // Validating answer length
         if (answer.length < 10) {
             return res.status(StatusCodes.BAD_REQUEST).json({
                 success: false,
@@ -76,11 +70,9 @@ export const postAnswer = async (req, res) => {
         }
 
         //Checking if the question Exists
-        const query = `SELECT question_id FROM questions WHERE question_id = ?`;
-        const [questionCheck] = await connection.execute(query, [questionId]);
+        const questionCheck = await db.query('SELECT question_id FROM questions WHERE question_id = ?', [questionId]);
 
-
-        if (questionCheck.length === 0) {
+        if (questionCheck.rows.length === 0) {
             return res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
                 status: 404,
@@ -88,60 +80,36 @@ export const postAnswer = async (req, res) => {
             })
         }
 
+        // Insert answer and get ID (works for both databases!)
+        const answerId = await db.insertAndGetId(
+            'INSERT INTO answers (question_id, user_id, answer) VALUES (?, ?, ?)',
+            [questionId, userId, answer],
+            'answer_id'
+        );
 
-        //Starting the Transaction
-        await connection.beginTransaction();
-
-        const insertQuery = `INSERT INTO answers (question_id, user_id, answer) VALUES (?, ?, ?)`;
-
-        const [rows] = await connection.execute(insertQuery, [questionId, userId, answer]);
-
-        //Committing the transaction 
-        await connection.commit();
-
-        //Success transaction
+        //Success response
         res.status(StatusCodes.CREATED).json({
             success: true,
             status: 201,
             message: 'Answer Posted Successful',
-            answer_id: rows.insertId,
+            answer_id: answerId,
         });
 
-
     }catch (err) {
-        if (connection) {
-      try {
-        await connection.rollback();
-      } catch (rollbackErr) {
-        console.error("Rollback error:", rollbackErr);
-      }
-    }
+        console.error("Error posting answer:", err.message);
 
-    console.error("Error posting answer:", err.message);
-
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      status: 500,
-      error: "Failed to post answer. Please try again later.",
-    })
-
-    }finally{
-         if (connection) {
-      connection.release();
-    }
-
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            status: 500,
+            error: "Failed to post answer. Please try again later.",
+        })
     }
 }
 
-
 // GET all answers for a specific question (public route)
 export const getAnswers = async (req, res) => {
-    let connection;
-
     try {
-        connection = await pool.getConnection();
-
-        const { id } = req.params; // question_id from URL params
+        const { id } = req.params;
         const questionId = parseInt(id);
 
         if (!questionId || isNaN(questionId)) {
@@ -153,12 +121,9 @@ export const getAnswers = async (req, res) => {
         }
 
         // First, check if the question exists
-        const [questionCheck] = await connection.execute(
-            'SELECT question_id FROM questions WHERE question_id = ?',
-            [questionId]
-        );
+        const questionCheck = await db.query('SELECT question_id FROM questions WHERE question_id = ?', [questionId]);
 
-        if (questionCheck.length === 0) {
+        if (questionCheck.rows.length === 0) {
             return res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
                 status: 404,
@@ -178,18 +143,17 @@ export const getAnswers = async (req, res) => {
             WHERE a.question_id = ? 
             ORDER BY a.answer_id ASC`;
 
-        const [rows] = await connection.execute(query, [questionId]);
+        const result = await db.query(query, [questionId]);
 
         // Success response
         res.status(StatusCodes.OK).json({
             success: true,
             status: 200,
             message: 'Answers retrieved successfully',
-            question_title: questionCheck[0].title,
-            count: rows.length,
-            answers: rows
+            question_title: questionCheck.rows[0].title,
+            count: result.rows.length,
+            answers: result.rows
         });
-
 
     } catch (err) {
         console.error('Get answers error:', err.message);
@@ -199,20 +163,12 @@ export const getAnswers = async (req, res) => {
             status: 500,
             error: 'Failed to retrieve answers. Please try again later.',
         });
-    } finally {
-        if (connection) {
-            connection.release();
-        }
     }
 };
 
 // GET all answers by a specific user (public route)
 export const getAnswersByUser = async (req, res) => {
-    let connection;
-
     try {
-        connection = await pool.getConnection();
-
         const { user_id } = req.params;
         const userId = parseInt(user_id);
 
@@ -225,12 +181,9 @@ export const getAnswersByUser = async (req, res) => {
         }
 
         // Check if user exists
-        const [userCheck] = await connection.execute(
-            'SELECT username FROM users WHERE user_id = ?',
-            [userId]
-        );
+        const userCheck = await db.query('SELECT username FROM users WHERE user_id = ?', [userId]);
 
-        if (userCheck.length === 0) {
+        if (userCheck.rows.length === 0) {
             return res.status(StatusCodes.NOT_FOUND).json({
                 success: false,
                 status: 404,
@@ -251,18 +204,17 @@ export const getAnswersByUser = async (req, res) => {
             WHERE a.user_id = ? 
             ORDER BY a.answer_id DESC`;
 
-        const [rows] = await connection.execute(query, [userId]);
+        const result = await db.query(query, [userId]);
 
         // Success response
         res.status(StatusCodes.OK).json({
             success: true,
             status: 200,
             message: 'User answers retrieved successfully',
-            username: userCheck[0].username,
-            count: rows.length,
-            answers: rows
+            username: userCheck.rows[0].username,
+            count: result.rows.length,
+            answers: result.rows
         });
-
 
     } catch (err) {
         console.error('Get answers by user error:', err.message);
@@ -272,9 +224,5 @@ export const getAnswersByUser = async (req, res) => {
             status: 500,
             error: 'Failed to retrieve user answers. Please try again later.',
         });
-    } finally {
-        if (connection) {
-            connection.release();
-        }
     }
 };

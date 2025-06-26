@@ -2,14 +2,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import cors from 'cors';
-import pool from './config/databaseConfig.js';
+import db from './config/dbConnection.js';  // My Universal adapter
 import { createAllTables } from './controllers/createAllTables.js';
 import userRoute from './Routes/userRoute.js';
 import questionRoute from './Routes/questionRoute.js';
 import answerRoute from './Routes/answerRoute.js';
-// import profileRoute from './Routes/profileRoute.js';
-import passwordResetRoutes from './Routes/passwordResetRoutes.js';   //password reset routes
-// import { cleanupRateLimit } from './utils/passwordResetUtils.js';  //cleanup functions
+import passwordResetRoutes from './Routes/passwordResetRoutes.js';
 import { testEmailSetup } from './services/emailService.js';
 import { cleanupExpiredTokens } from './controllers/passwordResetController.js';
 
@@ -20,8 +18,9 @@ const port = process.env.PORT || 5500;
 app.use(cors({
     origin: [
         'https://amanuelwubneh.com',
-    'https://forum.amanuelwubneh.com',
-    'http://localhost:5000'
+        'https://forum.amanuelwubneh.com',
+        'http://localhost:5000',
+        'http://localhost:5173'
     ],
     credentials: true
 }));
@@ -32,10 +31,9 @@ app.use(express.json());
 app.use('/api/auth', userRoute); 
 app.use('/api/questions', questionRoute);
 app.use('/api/answers', answerRoute);
-// app.use('/api/profiles', profileRoute);
-app.use('/api/auth', passwordResetRoutes);   //route for password reset
+app.use('/api/auth', passwordResetRoutes);
 
-// Global 404 handler for unknown routes
+// Global 404 handler
 app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' });
 });
@@ -46,38 +44,20 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// ✅ Test DB Connection 
+// ✅ Test Database Connection (works for both!)
 const testConnection = async () => {
     try {
-        const connection = await pool.getConnection();
-        
-        connection.release(); 
+        await db.query('SELECT 1');
+        console.log(`✅ Database connection successful (${process.env.DB_TYPE || 'mysql'})`);
         return true;
     } catch (err) {
-        console.error("❌ MySQL error:", err);
+        console.error("❌ Database connection error:", err.message);
         return false;
     }
 };
 
-//Test email configuration
-const testEmailConfig  = async () => {
-    try {
-        const result = await testEmailSetup();
-        if (result.success) {
-            console.info('✅ Email service is configured correctly');
-        } else {
-            console.warn(' Email service configuration issue:', result.error);
-            console.warn(' Password reset emails will not work until this is fixed');
-            console.warn(' Check your .env file for EMAIL_* variables');
-        }
-    } catch (err) {
-        console.warn('Email service not configured. Password reset will not work.');
-    }
-};
-
-// ✅ Start the server
+// Starting the server
 const startServer = async () => {
-    
     const isConnected = await testConnection();
     
     if (!isConnected) {
@@ -85,8 +65,8 @@ const startServer = async () => {
         process.exit(1);
     }
 
-    // Testing email configuration on startup
-    await testEmailConfig();
+    // Testing email configuration
+    await testEmailSetup();
 
     if (process.env.INIT_DB === 'true') {
         try {
@@ -97,33 +77,17 @@ const startServer = async () => {
         }
     }
 
-    //Setting up periodic cleanup (every hour)
+    // Periodic cleanup
     setInterval(() => {
-       
         cleanupExpiredTokens();
-        // cleanupRateLimit();
-    }, 60 * 60 * 1000); // Every hour
+    }, 60 * 60 * 1000);
 
     // Start listening 
-    const server = app.listen(port, () => {
+    app.listen(port, () => {
         console.info(`✨ Server listening on port ${port}`);
         console.info(`✨ API available at: http://localhost:${port}/api`);
-    });
-
-    // Handle server startup errors
-    server.on('error', (err) => {
-        console.error('❌ Server startup error:', err.message);
-        process.exit(1);
+        console.info(`📊 Database: ${process.env.DB_TYPE || 'mysql'}`);
     });
 };
 
-// Graceful shutdown
-process.on('SIGINT', async () => {
-    console.info('\n🔄 Shutting down gracefully...');
-    await pool.end();
-    console.info('✅ Database connections closed');
-    process.exit(0);
-});
-
-// Start everything
 startServer();
