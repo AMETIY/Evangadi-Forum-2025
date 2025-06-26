@@ -1,10 +1,7 @@
 /* Enhanced LandingPage.module.css */
 
 .background {
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0.4), 
-      rgba(0, 0, 0, 0.4)
-    ), 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
     url(../../assets/images/externalpage.jpg);
   background-size: cover;
   background-position: center;
@@ -24,7 +21,7 @@
 
 /* Animated background overlay */
 .background::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -41,7 +38,8 @@
 }
 
 @keyframes gradientShift {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.1;
   }
   50% {

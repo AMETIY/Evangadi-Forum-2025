@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 // Team data with placeholder links (replace with actual links)
 const teamMembers = [
-  { id: 1, firstName: 'Amanuel', lastName: 'Wubneh', role: 'Developer', github: '#', portfolio: '#' },
+  { id: 1, firstName: 'Amanuel', lastName: 'Wubneh', role: 'Developer', github: 'https://github.com/AMETIY', portfolio: 'https://amanuelwubneh.com/' },
   { id: 2, firstName: 'Abenezer', lastName: 'Zewge', role: 'Developer', github: '#', portfolio: '#' },
   { id: 3, firstName: 'Helen', lastName: 'Zelalem', role: 'Developer', github: '#', portfolio: '#' },
   { id: 4, firstName: 'Heran', lastName: 'Yimer', role: 'Developer', github: '#', portfolio: '#' },

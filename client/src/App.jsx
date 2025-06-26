@@ -1,16 +1,8 @@
-import React from 'react'
-import Router from './Router'
-import { AuthProvider } from './context/AuthContext'
+import React from "react";
+import Router from "./Router";
 
 const App = () => {
-  return (
-    <>
-  <AuthProvider>
-   <Router />
-  </AuthProvider>
+  return <Router />;
+};
 
-    </>
-  )
-}
-
-export default App
+export default App;

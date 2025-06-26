@@ -6,13 +6,13 @@ import { questionsAPI } from "../../utils/api";
 import { Alert, Button, Spinner, Form, InputGroup } from "react-bootstrap";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import QuestionInfo from "./QuestionInfo";
-import Pagination from '../../Components/Pagination/Pagination.jsx'
+import Pagination from "../../Components/Pagination/Pagination.jsx";
 
 const Home = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');     //state management for search
+  const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); //state management for search
   const [isSearching, setIsSearching] = useState(false);
   const [paginationData, setPaginationData] = useState({
     currentPage: 1,
@@ -20,38 +20,57 @@ const Home = () => {
     totalQuestions: 0,
     questionsPerPage: 4,
     hasNextPage: false,
-    hasPreviousPage: false
+    hasPreviousPage: false,
   });
+  const [searchType, setSearchType] = useState("title"); // NEW: search type
 
   const navigate = useNavigate();
   const { user } = useAuth();
-  const searchInputRef = useRef();      //state management for search
+  const searchInputRef = useRef(); //state management for search
 
   // Getting the value of the page parameter from URL query string Using useSearchParams hook
   const [searchParams, setSearchParams] = useSearchParams();
 
   //Getting The Current Page From the URL Parameters
-  const currentPage = parseInt(searchParams.get('page')) || 1;
-  const questionsPerPage = 4 //fixed limit
+  const currentPage = parseInt(searchParams.get("page")) || 1;
+  const questionsPerPage = 4; //fixed limit
 
   useEffect(() => {
-    const urlSearchQuery = searchParams.get('search') || '';  //Reading search query from URL Parameters on Component Mount(Param change)
-    setSearchQuery(urlSearchQuery);     //Updating search input with URL value
-    fetchQuestions(currentPage, questionsPerPage, urlSearchQuery);
+    const urlSearchQuery = searchParams.get("search") || "";
+    const urlSearchType = searchParams.get("type") || "title";
+    setSearchQuery(urlSearchQuery);
+    setSearchType(urlSearchType);
+    fetchQuestions(
+      currentPage,
+      questionsPerPage,
+      urlSearchQuery,
+      urlSearchType
+    );
   }, [currentPage]);
 
-  const fetchQuestions = async (page = 1, limit = 4, search = '') => {    //Getting Questions With search params
+  const fetchQuestions = async (
+    page = 1,
+    limit = 4,
+    search = "",
+    type = "title"
+  ) => {
+    //Getting Questions With search params
     try {
       setLoading(true);
-      setError('');
+      setError("");
 
-      const response = await questionsAPI.getAllQuestions(page, limit, search);
+      const response = await questionsAPI.getAllQuestions(
+        page,
+        limit,
+        search,
+        type
+      );
 
       if (response.data.success) {
         setQuestions(response.data.data.questions);
         setPaginationData(response.data.data.pagination);
       } else {
-        setError(response.data.error || 'Failed to fetch Questions');
+        setError(response.data.error || "Failed to fetch Questions");
       }
     } catch (err) {
       setError("Failed to fetch questions. Please try again later");
@@ -62,12 +81,10 @@ const Home = () => {
     }
   };
 
-
   // Handling search input change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
 
   // Handling search submission
   const handleSearchSubmit = (e) => {
@@ -75,48 +92,47 @@ const Home = () => {
     performSearch(searchQuery.trim());
   };
 
-
-
   // Performing search function
-  const performSearch = (query) => {    //(Takes the search text = query)
+  const performSearch = (query, type = searchType) => {
+    //(Takes the search text = query)
     setIsSearching(true);
-    const trimmedQuery = query.trim();   //cleans whitespaces from the search query
-    
+    const trimmedQuery = query.trim(); //cleans whitespaces from the search query
+
     // Updating URL with search parameters
 
-    const newParams = { page: '1' };   //New object to hold URL Params and setting every new search to start from page 1
+    const newParams = { page: "1", type }; //New object to hold URL Params and setting every new search to start from page 1
 
     if (trimmedQuery) {
-      newParams.search = trimmedQuery;   //If there is content in the search input adding the search query to URL Params
+      newParams.search = trimmedQuery; //If there is content in the search input adding the search query to URL Params
     }
-    setSearchParams(newParams);         //Updating the URL Without Refreshing the Page
+    setSearchParams(newParams); //Updating the URL Without Refreshing the Page
 
     // Fetch questions with search query
-    fetchQuestions(1, questionsPerPage, trimmedQuery);
+    fetchQuestions(1, questionsPerPage, trimmedQuery, type);
   };
-
 
   // Clear search
   const clearSearch = () => {
-    setSearchQuery('');
-    setSearchParams({ page: '1' });
-    fetchQuestions(1, questionsPerPage, '');
+    setSearchQuery("");
+    setSearchType("title");
+    setSearchParams({ page: "1", type: "title" });
+    fetchQuestions(1, questionsPerPage, "", "title");
     searchInputRef.current?.focus();
   };
 
   // Handle page navigation with search
   const handlePageChange = (newPage) => {
-    const params = { page: newPage.toString() };
+    const params = { page: newPage.toString(), type: searchType };
     if (searchQuery.trim()) {
       params.search = searchQuery.trim();
     }
     setSearchParams(params);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleAskQuestion = () => {
     if (!user) {
-      navigate('/auth');
+      navigate("/auth");
       return;
     }
     navigate("/askQuestion");
@@ -124,20 +140,24 @@ const Home = () => {
 
   // Handle question deletion
   const handleQuestionDeleted = (deletedQuestionId) => {
-    setQuestions(prevQuestions => 
-      prevQuestions.filter(question => question.question_id !== deletedQuestionId)
+    setQuestions((prevQuestions) =>
+      prevQuestions.filter(
+        (question) => question.question_id !== deletedQuestionId
+      )
     );
 
-    setPaginationData(prevData => ({
+    setPaginationData((prevData) => ({
       ...prevData,
       totalQuestions: prevData.totalQuestions - 1,
-      totalPages: Math.ceil((prevData.totalQuestions - 1) / prevData.questionsPerPage)
+      totalPages: Math.ceil(
+        (prevData.totalQuestions - 1) / prevData.questionsPerPage
+      ),
     }));
 
     if (questions.length === 1 && currentPage > 1) {
       handlePageChange(currentPage - 1);
     } else {
-      fetchQuestions(currentPage, questionsPerPage, searchQuery);
+      fetchQuestions(currentPage, questionsPerPage, searchQuery, searchType);
     }
   };
 
@@ -169,6 +189,16 @@ const Home = () => {
           <div className={styles.searchContainer}>
             <Form onSubmit={handleSearchSubmit} className={styles.searchForm}>
               <InputGroup>
+                <Form.Select
+                  value={searchType}
+                  onChange={(e) => setSearchType(e.target.value)}
+                  className={styles.searchTypeSelect}
+                  style={{ maxWidth: 120 }}
+                >
+                  <option value="title">Title</option>
+                  <option value="question">Question</option>
+                  <option value="tag">Tag</option>
+                </Form.Select>
                 <Form.Control
                   ref={searchInputRef}
                   type="text"
@@ -206,9 +236,11 @@ const Home = () => {
 
           <div className={styles.questionsSectionHeader}>
             <h2 className={styles.questionsTitle}>
-              {searchQuery ? `Search Results for "${searchQuery}"` : 'Questions'}
+              {searchQuery
+                ? `Search Results for "${searchQuery}"`
+                : "Questions"}
             </h2>
-            
+
             {/* Display current page info */}
             {paginationData.totalQuestions > 0 && (
               <div className={styles.pageInfo}>
@@ -221,9 +253,15 @@ const Home = () => {
           {searchQuery && (
             <div className={styles.searchResultsInfo}>
               {paginationData.totalQuestions > 0 ? (
-                <p>Found {paginationData.totalQuestions} question(s) matching your search.</p>
+                <p>
+                  Found {paginationData.totalQuestions} question(s) matching
+                  your search.
+                </p>
               ) : (
-                <p>No questions found matching your search. Try different keywords.</p>
+                <p>
+                  No questions found matching your search. Try different
+                  keywords.
+                </p>
               )}
             </div>
           )}
@@ -232,11 +270,18 @@ const Home = () => {
           {error && (
             <Alert variant="danger" className={styles.errorAlert}>
               {error}
-              <Button 
-                variant="outline-danger" 
-                size="sm" 
+              <Button
+                variant="outline-danger"
+                size="sm"
                 className="ms-2"
-                onClick={() => fetchQuestions(currentPage, questionsPerPage, searchQuery)}
+                onClick={() =>
+                  fetchQuestions(
+                    currentPage,
+                    questionsPerPage,
+                    searchQuery,
+                    searchType
+                  )
+                }
               >
                 Retry
               </Button>
@@ -255,19 +300,18 @@ const Home = () => {
                 {searchQuery ? (
                   <>
                     <h4>No questions found</h4>
-                    <p>Try adjusting your search terms or browse all questions.</p>
+                    <p>
+                      Try adjusting your search terms or browse all questions.
+                    </p>
                     <div className={styles.noQuestionsActions}>
-                      <Button 
-                        variant="outline-primary" 
+                      <Button
+                        variant="outline-primary"
                         onClick={clearSearch}
                         className="me-2"
                       >
                         Clear Search
                       </Button>
-                      <Button 
-                        variant="primary" 
-                        onClick={handleAskQuestion}
-                      >
+                      <Button variant="primary" onClick={handleAskQuestion}>
                         Ask a Question
                       </Button>
                     </div>
@@ -276,8 +320,8 @@ const Home = () => {
                   <>
                     <h4>No questions available</h4>
                     <p>Be the first to ask a question!</p>
-                    <Button 
-                      variant="primary" 
+                    <Button
+                      variant="primary"
                       onClick={handleAskQuestion}
                       className="mt-2"
                     >

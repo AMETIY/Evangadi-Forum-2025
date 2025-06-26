@@ -1,31 +1,45 @@
-import React, { useState, useRef } from 'react';
-import { Container, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { FaArrowLeft, FaEnvelope, FaCheckCircle, FaInbox, FaMouse } from 'react-icons/fa';
-import { authAPI } from '../../utils/api';
-import styles from './ForgotPasswordPage.module.css';
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { Container, Card, Form, Button, Alert, Spinner } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FaArrowLeft,
+  FaEnvelope,
+  FaCheckCircle,
+  FaInbox,
+  FaMouse,
+} from "react-icons/fa";
+import { authAPI } from "../../utils/api";
+import styles from "./ForgotPasswordPage.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 const ForgotPasswordPage = () => {
-  
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
   const emailRef = useRef();
-  
+
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState(''); // 'success' or 'error'
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // 'success' or 'error'
   const [emailSent, setEmailSent] = useState(false);
-  const [submittedEmail, setSubmittedEmail] = useState(''); // Store email for success message
+  const [submittedEmail, setSubmittedEmail] = useState(""); // Storing email for success message
 
   // Handling form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    
+
     const email = emailRef.current.value.trim();
-    
+
     // validation
     if (!email) {
-      setMessage('Please enter your email address');
-      setMessageType('error');
+      setMessage("Please enter your email address");
+      setMessageType("error");
       emailRef.current.focus(); //Focus on error
       return;
     }
@@ -33,15 +47,15 @@ const ForgotPasswordPage = () => {
     // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setMessage('Please enter a valid email address');
-      setMessageType('error');
+      setMessage("Please enter a valid email address");
+      setMessageType("error");
       emailRef.current.focus();
       return;
     }
 
     try {
       setLoading(true);
-      setMessage('');
+      setMessage("");
 
       // Calling API to request password reset
       const response = await authAPI.requestReset(email);
@@ -50,15 +64,17 @@ const ForgotPasswordPage = () => {
         setEmailSent(true);
         setSubmittedEmail(email); // Store email for success message
         setMessage(response.data.message);
-        setMessageType('success');
+        setMessageType("success");
       } else {
-        setMessage(response.data.error || 'Something went wrong');
-        setMessageType('error');
+        setMessage(response.data.error || "Something went wrong");
+        setMessageType("error");
       }
     } catch (error) {
-      console.error('Forgot password error:', error);
-      setMessage(error.response?.data?.error || 'Something went wrong. Please try again.');
-      setMessageType('error');
+      console.error("Forgot password error:", error);
+      setMessage(
+        error.response?.data?.error || "Something went wrong. Please try again."
+      );
+      setMessageType("error");
     } finally {
       setLoading(false);
     }
@@ -67,13 +83,13 @@ const ForgotPasswordPage = () => {
   // Handling sending another email
   const handleSendAnother = () => {
     setEmailSent(false);
-    setMessage('');
-    setSubmittedEmail('');
-       
+    setMessage("");
+    setSubmittedEmail("");
+
     // ensuring the form is rendered before trying to access the ref
     setTimeout(() => {
       if (emailRef.current) {
-        emailRef.current.value = ''; // Clear ref value
+        emailRef.current.value = ""; // Clear ref value
         emailRef.current.focus(); // Focus on input
       }
     }, 0);
@@ -85,7 +101,6 @@ const ForgotPasswordPage = () => {
         <div className={styles.wrapper}>
           <Card className={styles.card}>
             <Card.Body className={styles.cardBody}>
-              
               {/* Back to Login Link */}
               <Link to="/auth" className={styles.backLink}>
                 <FaArrowLeft className="me-2" />
@@ -99,22 +114,21 @@ const ForgotPasswordPage = () => {
                 ) : (
                   <FaEnvelope className={styles.emailIcon} />
                 )}
-                
+
                 <h2 className={styles.title}>
-                  {emailSent ? 'Check Your Email! ' : 'Forgot Password?'}
+                  {emailSent ? "Check Your Email! " : "Forgot Password?"}
                 </h2>
-                
+
                 <p className={styles.subtitle}>
-                  {emailSent 
+                  {emailSent
                     ? `We sent a reset link to ${submittedEmail}. Check your inbox!`
-                    : "No worries! Just enter your email and we'll send you a reset link."
-                  }
+                    : "No worries! Just enter your email and we'll send you a reset link."}
                 </p>
               </div>
 
               {/* Message Alert */}
               {message && (
-                <Alert variant={messageType === 'error' ? 'danger' : 'success'}>
+                <Alert variant={messageType === "error" ? "danger" : "success"}>
                   {message}
                 </Alert>
               )}
@@ -125,7 +139,7 @@ const ForgotPasswordPage = () => {
                   <Form.Group className="mb-4">
                     <Form.Label>Email Address</Form.Label>
                     <Form.Control
-                      ref={emailRef} 
+                      ref={emailRef}
                       type="email"
                       placeholder="Enter your email address"
                       disabled={loading}
@@ -142,11 +156,15 @@ const ForgotPasswordPage = () => {
                   >
                     {loading ? (
                       <>
-                        <Spinner animation="border" size="sm" className="me-2" />
+                        <Spinner
+                          animation="border"
+                          size="sm"
+                          className="me-2"
+                        />
                         Sending...
                       </>
                     ) : (
-                      'Send Reset Link '
+                      "Send Reset Link "
                     )}
                   </Button>
                 </Form>
@@ -155,16 +173,21 @@ const ForgotPasswordPage = () => {
                   <div className={styles.instructions}>
                     <h5>What to do next:</h5>
                     <ul>
-                      <li> <FaInbox /> Check your email inbox</li>
+                      <li>
+                        {" "}
+                        <FaInbox /> Check your email inbox
+                      </li>
                       <li>Look for email from Evangadi Forum</li>
-                      <li><FaMouse /> Click the "Reset Password" button</li>
+                      <li>
+                        <FaMouse /> Click the "Reset Password" button
+                      </li>
                       <li>Link expires in 30 minutes</li>
                     </ul>
                   </div>
 
                   <Button
                     variant="outline-primary"
-                    onClick={handleSendAnother} 
+                    onClick={handleSendAnother}
                     className={styles.sendAnotherBtn}
                   >
                     Send Another Email
@@ -175,13 +198,12 @@ const ForgotPasswordPage = () => {
               {/* Footer */}
               <div className={styles.footer}>
                 <p>
-                  Remember your password?{' '}
+                  Remember your password?{" "}
                   <Link to="/auth" className={styles.loginLink}>
                     Back to Login
                   </Link>
                 </p>
               </div>
-
             </Card.Body>
           </Card>
         </div>
