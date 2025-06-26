@@ -49,6 +49,17 @@ app.use("/api/questions", questionRoute);
 app.use("/api/answers", answerRoute);
 app.use("/api/auth", passwordResetRoutes);
 
+// Test email endpoint (remove in production)
+app.get("/api/test-email", async (req, res) => {
+  try {
+    const { testEmailSetup } = await import("./services/emailService.js");
+    const result = await testEmailSetup();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Global 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
