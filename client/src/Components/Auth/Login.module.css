@@ -98,7 +98,8 @@
 .rightWrapper {
   flex: 1.5;
   position: relative;
-  background: url('../../assets//images/10001-Dz9-Dzkc.jpg') no-repeat center center/cover;
+  background: url("../../assets//images/10001-Dz9-Dzkc.jpg") no-repeat center
+    center/cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,4 +135,51 @@
   margin-bottom: 1rem;
   line-height: 1.5;
   font-size: 0.95rem;
+}
+
+/* Responsive styles for Login Page */
+@media (max-width: 900px) {
+  .rightWrapper {
+    display: none;
+  }
+  .leftContainer {
+    flex: 1 1 100%;
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .landingPageContainer {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  .leftContainer {
+    padding: 1.5rem 0.5rem;
+    min-width: 0;
+  }
+  .loginForm {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+  .mainHeading {
+    font-size: 1.3rem;
+  }
+  .rightWrapperContent {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .loginForm {
+    padding: 0;
+  }
+  .mainHeading {
+    font-size: 1.1rem;
+  }
+  .input,
+  .loginSubmitBtn {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
 }

@@ -23,7 +23,7 @@ app.use(
 
       const allowedOrigins = [
         "https://amanuelwubneh.com",
-        "https://evangadi-forum-frontend.vercel.app",
+        "https://evangadi-forum-frontend-rho.vercel.app",
         "https://evangadi-forum.vercel.app",
         "http://localhost:5000",
         "http://localhost:5173",

@@ -16,7 +16,7 @@
   background-color: #ffffff;
 }
 
-.authForm{
+.authForm {
   width: 100%;
   max-width: 500px;
   background-color: #fff;
@@ -32,13 +32,13 @@
   color: #333;
 }
 
-.authSubtitle{
+.authSubtitle {
   font-size: 1rem;
   margin-bottom: 1.5rem;
   color: #666;
 }
 
-.authLink{
+.authLink {
   color: #f39228;
   text-decoration: none;
   font-weight: 600;
@@ -71,7 +71,7 @@
   gap: 1rem;
 }
 
-.authSubmitBtn{
+.authSubmitBtn {
   width: 100%;
   background-color: #f39228;
   border: none;
@@ -95,16 +95,14 @@
   color: #555;
 }
 
-
- /* login page styling */
-
-
+/* login page styling */
 
 /* ====== RIGHT SECTION ====== */
 .rightWrapper {
   flex: 1;
   position: relative;
-  background: url("../../assets/images/10001-Dz9-Dzkc.jpg") center/cover no-repeat;
+  background: url("../../assets/images/10001-Dz9-Dzkc.jpg") center/cover
+    no-repeat;
   color: white;
   display: flex;
   align-items: center;
@@ -155,3 +153,51 @@
   color: #eee;
 }
 
+/* Responsive styles for Sign Up Page */
+@media (max-width: 900px) {
+  .rightWrapper {
+    display: none;
+  }
+  .leftContainer {
+    flex: 1 1 100%;
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .authPageContainer {
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+  }
+  .leftContainer {
+    padding: 1.5rem 0.5rem;
+    min-width: 0;
+  }
+  .authForm {
+    max-width: 100%;
+    padding: 1.2rem 0.5rem;
+  }
+  .title,
+  .mainHeading {
+    font-size: 1.3rem;
+  }
+  .rightWrapperContent {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .authForm {
+    padding: 0.5rem 0.2rem;
+  }
+  .title,
+  .mainHeading {
+    font-size: 1.1rem;
+  }
+  .input,
+  .authSubmitBtn {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+}
