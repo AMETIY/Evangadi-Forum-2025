@@ -34,12 +34,12 @@ const Login = ({ toggleAuthMode, successMessage = "" }) => {
     }
   }, [location]);
 
-  // Redirecting if user is already logged in
+  // Redirecting if user is already logged in, but NOT if there's a success message to show
   useEffect(() => {
-    if (user && !tokenExpired) {
+    if (user && !tokenExpired && !status.message) {
       navigate("/", { replace: true });
     }
-  }, [user, tokenExpired, navigate]);
+  }, [user, tokenExpired, navigate, status.message]);
 
   // Show success message from props on mount
   useEffect(() => {
