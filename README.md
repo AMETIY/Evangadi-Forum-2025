@@ -750,6 +750,4 @@ SOFTWARE.
 
 **Made with ❤️ by [Amanuel Wubneh](https://github.com/AMETIY)**
 
-[⬆ Back to Top](#-Evangadi Forum-2025)
-
 </div>
