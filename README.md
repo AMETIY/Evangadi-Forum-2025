@@ -720,9 +720,9 @@ SOFTWARE.
 ## 👨‍💻 Author
 
 **Your Name**
-- 🌐 **Portfolio**: [your-portfolio.com](https://amanuelwubneh.com/)
-- 💼 **LinkedIn**: [linkedin.com/in/yourprofile](https://www.linkedin.com/in/amanuel-wubneh-816606309/)
-- 🐙 **GitHub**: [@yourusername](https://github.com/AMETIY)
+- 🌐 **Portfolio**: [amanuelwubneh.com](https://amanuelwubneh.com/)
+- 💼 **LinkedIn**: [amanuel-wubneh](https://www.linkedin.com/in/amanuel-wubneh-816606309/)
+- 🐙 **GitHub**: [@AMETIY](https://github.com/AMETIY)
 
 ## 🙏 Acknowledgments
 
