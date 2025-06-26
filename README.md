@@ -1,4 +1,4 @@
-# 🌟 Evangadi Forum
+# 🌟 Evangadi Forum-2025
 
 > A modern, full-stack Q&A platform built with React and Node.js, empowering communities to share knowledge and grow together.
 
@@ -748,7 +748,7 @@ SOFTWARE.
 
 ### 🌟 **Star this repo if you found it helpful!** 🌟
 
-**Made with ❤️ by [Your Name](https://github.com/AMETIY)**
+**Made with ❤️ by [Amanuel Wubneh](https://github.com/AMETIY)**
 
 [⬆ Back to Top](#-evangadi-forum)
 
