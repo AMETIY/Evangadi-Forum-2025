@@ -96,7 +96,10 @@ const SignUp = ({ toggleAuthMode }) => {
       const result = await registerUser(userData);
 
       if (result.success) {
-        showStatus("User registered successfully", "success");
+        showStatus(
+          "User registered successfully! Redirecting to login...",
+          "success"
+        );
 
         // Clearing the form
         usernameRef.current.value = "";
@@ -106,7 +109,7 @@ const SignUp = ({ toggleAuthMode }) => {
         passwordRef.current.value = "";
 
         setTimeout(() => {
-          toggleAuthMode(); // redirect to login
+          toggleAuthMode("Registration successful! Please log in."); // pass message to login
         }, 1500);
       } else {
         showStatus(

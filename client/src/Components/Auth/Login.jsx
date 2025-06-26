@@ -5,7 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import styles from "./Login.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Login = ({ toggleAuthMode }) => {
+const Login = ({ toggleAuthMode, successMessage = "" }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -40,6 +40,14 @@ const Login = ({ toggleAuthMode }) => {
       navigate("/", { replace: true });
     }
   }, [user, tokenExpired, navigate]);
+
+  // Show success message from props on mount
+  useEffect(() => {
+    if (successMessage) {
+      showStatus(successMessage, "success");
+    }
+    // eslint-disable-next-line
+  }, [successMessage]);
 
   //Simple Message
   const showStatus = (message, type = "error") => {
@@ -97,14 +105,12 @@ const Login = ({ toggleAuthMode }) => {
 
       const result = await loginUser(credentials);
 
-      // showStatus("User Logged in successfully", "success");
-
       if (result.success) {
         showStatus("User Logged in successfully", "success");
 
         setTimeout(() => {
           navigate("/", { replace: true }); // redirect to home
-        }, 1000);
+        }, 1500);
       } else {
         const errorMessage = result.error || "Login failed. Please try again.";
         showStatus(errorMessage, "error");
@@ -136,7 +142,16 @@ const Login = ({ toggleAuthMode }) => {
           </p>
 
           {status.message && (
-            <Alert variant={ status.type === "error"? "danger": status.type === "success"? "success": "info"} className="mb-3">
+            <Alert
+              variant={
+                status.type === "error"
+                  ? "danger"
+                  : status.type === "success"
+                  ? "success"
+                  : "info"
+              }
+              className="mb-3"
+            >
               {status.message}
             </Alert>
           )}
@@ -225,7 +240,7 @@ const Login = ({ toggleAuthMode }) => {
           <h4 className={styles.description}>
             <p>
               {" "}
-              No matter what stage of life you are in, whether you’re just
+              No matter what stage of life you are in, whether you're just
               starting elementary school or being promoted to CEO of a Fortune
               500 company, you have much to offer to those who are trying to
               follow in your footsteps.

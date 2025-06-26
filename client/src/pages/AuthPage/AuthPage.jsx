@@ -10,6 +10,9 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [isLogin, setIsLogin] = useState(true);
+  const [loginSuccessMessage, setLoginSuccessMessage] = useState("");
+
   // Read mode from query param
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -24,10 +27,10 @@ const AuthPage = () => {
     }
   }, [isAuthenticated, loading, navigate]);
 
-  const [isLogin, setIsLogin] = useState(true);
-
-  const toggleAuthMode = () => {
-    setIsLogin(!isLogin);
+  // Accept an optional message to show on login
+  const toggleAuthMode = (message = "") => {
+    setIsLogin((prev) => !prev);
+    setLoginSuccessMessage(message);
   };
 
   if (loading) return null;
@@ -39,7 +42,10 @@ const AuthPage = () => {
           <div className={styles.authLeft}>
             <div className={styles.authFormContainer}>
               {isLogin ? (
-                <Login toggleAuthMode={toggleAuthMode} />
+                <Login
+                  toggleAuthMode={toggleAuthMode}
+                  successMessage={loginSuccessMessage}
+                />
               ) : (
                 <SignUp toggleAuthMode={toggleAuthMode} />
               )}
