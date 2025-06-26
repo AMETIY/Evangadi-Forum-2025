@@ -687,20 +687,7 @@ git push origin feature/your-feature-name
 - 🧪 **Automated Testing** with Jest/Cypress
 - 📊 **Monitoring** with application insights
 
-## 📞 Support
 
-### 🆘 Getting Help
-- 📧 **Email**: your.email@example.com
-- 💬 **GitHub Issues**: [Create an issue](https://github.com/your-username/evangadi-forum/issues)
-- 📱 **Discord**: Join our community server
-- 📖 **Documentation**: Check our wiki
-
-### 🐛 Bug Reports
-When reporting bugs, please include:
-- 🖥️ **Environment**: Browser, OS, device
-- 📝 **Steps to Reproduce**: Clear reproduction steps
-- 📸 **Screenshots**: Visual evidence of the issue
-- 🔍 **Console Logs**: Browser console errors
 
 ## 📄 License
 
@@ -733,11 +720,9 @@ SOFTWARE.
 ## 👨‍💻 Author
 
 **Your Name**
-- 🌐 **Portfolio**: [your-portfolio.com](https://your-portfolio.com)
-- 💼 **LinkedIn**: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
-- 🐙 **GitHub**: [@yourusername](https://github.com/yourusername)
-- 📧 **Email**: your.email@example.com
-- 🐦 **Twitter**: [@yourusername](https://twitter.com/yourusername)
+- 🌐 **Portfolio**: [your-portfolio.com](https://amanuelwubneh.com/)
+- 💼 **LinkedIn**: [linkedin.com/in/yourprofile](https://www.linkedin.com/in/amanuel-wubneh-816606309/)
+- 🐙 **GitHub**: [@yourusername](https://github.com/AMETIY)
 
 ## 🙏 Acknowledgments
 
@@ -763,7 +748,7 @@ SOFTWARE.
 
 ### 🌟 **Star this repo if you found it helpful!** 🌟
 
-**Made with ❤️ by [Your Name](https://github.com/yourusername)**
+**Made with ❤️ by [Your Name](https://github.com/AMETIY)**
 
 [⬆ Back to Top](#-evangadi-forum)
 
