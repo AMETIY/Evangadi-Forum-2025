@@ -18,7 +18,7 @@ const port = process.env.PORT || 5500;
 app.use(cors({
     origin: [
         'https://amanuelwubneh.com',
-        'https://forum.amanuelwubneh.com',
+        'https://your-frontend-url.vercel.app',
         'http://localhost:5000',
         'http://localhost:5173'
     ],
