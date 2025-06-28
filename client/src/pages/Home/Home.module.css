@@ -29,9 +29,11 @@
 /* Top Section */
 .topSection {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Ask Question Button */
@@ -1023,19 +1025,20 @@
 
 .wordOfTheDaySection {
   background: linear-gradient(120deg, #fffde4 0%, #f6e7b4 100%);
-  border: 2.5px solid #ffe066;
-  border-radius: 18px;
-  box-shadow: 0 6px 24px rgba(255, 224, 102, 0.1),
-    0 2px 8px rgba(101, 60, 177, 0.08);
-  padding: 32px 32px 28px 32px;
-  margin-bottom: 28px;
-  margin-top: 10px;
+  border: 2px solid #ffe066;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
+  padding: 14px 18px 12px 18px;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 520px;
+  min-width: 220px;
+  width: 100%;
+  flex: 1 1 0;
   position: relative;
   overflow: hidden;
-  animation: happyPop 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .wordOfTheDaySection::before {
@@ -1063,28 +1066,26 @@
 }
 
 .wordOfTheDayTitle {
-  font-size: 1.35rem;
-  font-weight: 900;
-  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 7px;
   letter-spacing: 0.01em;
-  text-shadow: 0 2px 8px #fffbe7;
-  z-index: 1;
+  text-shadow: 0 1px 4px #fffbe7;
 }
 
 .wordOfTheDayQuote {
   color: #653cb1;
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-style: italic;
   font-weight: 600;
-  line-height: 1.7;
-  padding-left: 18px;
-  border-left: 5px solid #ffe066;
+  line-height: 1.5;
+  padding-left: 12px;
+  border-left: 4px solid #ffe066;
   background: rgba(255, 253, 228, 0.85);
-  border-radius: 10px;
+  border-radius: 7px;
   width: 100%;
-  box-shadow: 0 2px 8px rgba(255, 224, 102, 0.06);
-  z-index: 1;
-  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 1px 4px rgba(255, 224, 102, 0.04);
+  word-break: break-word;
 }
 
 .wordOfTheDayQuote span {
@@ -1099,22 +1100,41 @@
   background: #fffde4;
 }
 
-@media (max-width: 600px) {
-  .wordOfTheDaySection {
-    padding: 14px 6px 10px 10px;
-    border-radius: 12px;
+@media (max-width: 900px) {
+  .topSection {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
   }
-  .wordOfTheDayTitle {
-    font-size: 1.08rem;
+  .wordOfTheDaySection {
+    max-width: 100%;
+    min-width: 0;
+    padding: 10px 8px 8px 10px;
   }
   .wordOfTheDayQuote {
-    font-size: 1.01rem;
-    padding-left: 10px;
+    font-size: 0.98rem;
+    padding-left: 8px;
     border-left-width: 3px;
   }
-  .wordOfTheDaySection::before {
-    font-size: 2.2rem;
-    top: 8px;
-    left: 8px;
+}
+
+@media (max-width: 600px) {
+  .topSection {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .wordOfTheDaySection {
+    padding: 7px 4px 6px 7px;
+    border-radius: 9px;
+  }
+  .wordOfTheDayTitle {
+    font-size: 0.98rem;
+  }
+  .wordOfTheDayQuote {
+    font-size: 0.92rem;
+    padding-left: 6px;
+    border-left-width: 2px;
   }
 }

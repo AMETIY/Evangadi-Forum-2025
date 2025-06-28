@@ -206,11 +206,21 @@ const Home = () => {
       <div className={styles.homeContent}>
         {/* Top Section with Ask Question Button and Welcome */}
         <div className={styles.topSection}>
-          <Button className={styles.askQuestionBtn} onClick={handleAskQuestion}>
-            Ask Question
-          </Button>
-
-          {/* Word/Quote of the Day Section */}
+          <div
+            style={{
+              minWidth: 140,
+              flex: "0 0 auto",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              className={styles.askQuestionBtn}
+              onClick={handleAskQuestion}
+            >
+              Ask Question
+            </Button>
+          </div>
           <div className={styles.wordOfTheDaySection}>
             <h3 className={styles.wordOfTheDayTitle}>✨ Quote of the Day</h3>
             <div className={styles.wordOfTheDayQuote}>
