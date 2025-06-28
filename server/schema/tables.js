@@ -159,13 +159,15 @@ export const question_views = getSQL(
         user_id INT,
         ip_address VARCHAR(45),
         viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        view_date DATE GENERATED ALWAYS AS (DATE(viewed_at)) STORED,
         PRIMARY KEY (view_id),
         FOREIGN KEY (question_id) REFERENCES questions(question_id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
         INDEX idx_question_id (question_id),
         INDEX idx_user_id (user_id),
         INDEX idx_viewed_at (viewed_at),
-        UNIQUE KEY unique_view (question_id, user_id, ip_address, DATE(viewed_at))
+        INDEX idx_view_date (view_date),
+        UNIQUE KEY unique_view (question_id, user_id, ip_address, view_date)
     )`,
 
   // PostgreSQL
@@ -174,12 +176,14 @@ export const question_views = getSQL(
         question_id INTEGER NOT NULL REFERENCES questions(question_id) ON DELETE CASCADE,
         user_id INTEGER REFERENCES users(user_id) ON DELETE SET NULL,
         ip_address VARCHAR(45),
-        viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        view_date DATE GENERATED ALWAYS AS (viewed_at::date) STORED
     );
     CREATE INDEX IF NOT EXISTS idx_question_id ON question_views(question_id);
     CREATE INDEX IF NOT EXISTS idx_user_id ON question_views(user_id);
     CREATE INDEX IF NOT EXISTS idx_viewed_at ON question_views(viewed_at);
-    CREATE UNIQUE INDEX IF NOT EXISTS unique_view ON question_views(question_id, user_id, ip_address, DATE(viewed_at));`
+    CREATE INDEX IF NOT EXISTS idx_view_date ON question_views(view_date);
+    CREATE UNIQUE INDEX IF NOT EXISTS unique_view ON question_views(question_id, user_id, ip_address, view_date);`
 );
 
 export const question_likes = getSQL(
