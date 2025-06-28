@@ -5,13 +5,14 @@ import { questionsAPI } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { FaCheckCircle } from "react-icons/fa";
+import errorImage from "../../assets/images/externalpage.jpg";
 
 const AskQuestionPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState({ message: "", type: "" });
 
- const navigate = useNavigate();
-  const {user} = useAuth();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const titleRef = useRef();
   const questionRef = useRef();
@@ -90,17 +91,24 @@ const AskQuestionPage = () => {
         descriptionRef.current.value = "";
         tagRef.current.value = "javascript";
 
+        // Scroll to top to show success message
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // After a short delay, navigate to home
+        setTimeout(() => {
+          navigate("/home");
+        }, 2500);
       }
     } catch (err) {
       const errMessage =
         err.response.data?.error || "Failed to post question. Please try again";
       showStatus(errMessage, "error");
+      // Scroll to top to show error message
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } finally {
       setIsSubmitting(false);
     }
   };
-
-
 
   //Handling form reset
   const handleReset = () => {
@@ -110,23 +118,31 @@ const AskQuestionPage = () => {
     tagRef.current.value = "javascript";
   };
 
-
-
-
-
   return (
     <div className={styles.askContainer}>
       <div className={styles.content}>
-        
         {/* Guidelines Section */}
         <div className={styles.guidelines}>
           <h2>Steps to Write a Good Question</h2>
           <ul>
-            <li><FaCheckCircle /> Summarize your problem in a clear, descriptive title</li>
-            <li><FaCheckCircle /> Describe your problem in detail with context</li>
-            <li><FaCheckCircle /> Explain what you tried and what you expected to happen</li>
-            <li><FaCheckCircle /> Add relevant tags to help others find your question</li>
-            <li><FaCheckCircle /> Review your question before posting</li>
+            <li>
+              <FaCheckCircle /> Summarize your problem in a clear, descriptive
+              title
+            </li>
+            <li>
+              <FaCheckCircle /> Describe your problem in detail with context
+            </li>
+            <li>
+              <FaCheckCircle /> Explain what you tried and what you expected to
+              happen
+            </li>
+            <li>
+              <FaCheckCircle /> Add relevant tags to help others find your
+              question
+            </li>
+            <li>
+              <FaCheckCircle /> Review your question before posting
+            </li>
           </ul>
         </div>
 
@@ -134,20 +150,34 @@ const AskQuestionPage = () => {
         <div className={styles.formSection}>
           <h1>Ask a Public Question</h1>
           <p className={styles.subtitle}>
-            Welcome <strong>{user?.username || user?.first_name}</strong>! 
-            Share your coding question with the community.
+            Welcome <strong>{user?.username || user?.first_name}</strong>! Share
+            your coding question with the community.
           </p>
 
           {/* Message Display */}
           {status.message && (
-            <Alert variant={status.type === "error" ? "danger" : "success"}>
-              {status.message}
-            </Alert>
+            <>
+              {status.type === "error" && (
+                <img
+                  src={errorImage}
+                  alt="Error"
+                  style={{
+                    width: "100%",
+                    maxWidth: 320,
+                    margin: "0 auto 12px auto",
+                    display: "block",
+                    borderRadius: 12,
+                  }}
+                />
+              )}
+              <Alert variant={status.type === "error" ? "danger" : "success"}>
+                {status.message}
+              </Alert>
+            </>
           )}
 
           {/* Question Form */}
           <form onSubmit={handleSubmit} className={styles.form}>
-            
             {/* Title Field */}
             <div className={styles.fieldGroup}>
               <label htmlFor="title">
@@ -162,15 +192,14 @@ const AskQuestionPage = () => {
                 disabled={isSubmitting}
                 className={styles.input}
               />
-              <small className={styles.hint}>
-                Be specific
-              </small>
+              <small className={styles.hint}>Be specific</small>
             </div>
 
             {/* Main Question Field */}
             <div className={styles.fieldGroup}>
               <label htmlFor="question">
-                What's your main question? <span className={styles.required}>*</span>
+                What's your main question?{" "}
+                <span className={styles.required}>*</span>
               </label>
               <textarea
                 id="question"
@@ -197,7 +226,8 @@ const AskQuestionPage = () => {
                 className={styles.textarea}
               />
               <small className={styles.hint}>
-                Include relevant code, error messages, and steps you've already taken
+                Include relevant code, error messages, and steps you've already
+                taken
               </small>
             </div>
 
@@ -254,7 +284,7 @@ const AskQuestionPage = () => {
               >
                 Reset Form
               </button>
-              
+
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -266,7 +296,7 @@ const AskQuestionPage = () => {
                     Posting...
                   </>
                 ) : (
-                  'Post Your Question'
+                  "Post Your Question"
                 )}
               </button>
             </div>

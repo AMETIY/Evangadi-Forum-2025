@@ -53,10 +53,12 @@ const Login = ({ toggleAuthMode, successMessage = "" }) => {
   const showStatus = (message, type = "error") => {
     setStatus({ message, type });
 
-    // //Auto clear Status after 5 secs
-    // setTimeout(() => {
-    //   setStatus({ message: "", type: "" });
-    // }, 5000);
+    // Auto clear Status after 4 secs for error/info
+    if (type !== "success") {
+      setTimeout(() => {
+        setStatus({ message: "", type: "" });
+      }, 4000);
+    }
   };
 
   //Form Validation Function

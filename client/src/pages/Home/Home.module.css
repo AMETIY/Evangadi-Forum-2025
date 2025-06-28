@@ -1020,3 +1020,101 @@
 .clearButton {
   flex: 0 0 auto !important;
 }
+
+.wordOfTheDaySection {
+  background: linear-gradient(120deg, #fffde4 0%, #f6e7b4 100%);
+  border: 2.5px solid #ffe066;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(255, 224, 102, 0.1),
+    0 2px 8px rgba(101, 60, 177, 0.08);
+  padding: 32px 32px 28px 32px;
+  margin-bottom: 28px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  animation: happyPop 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.wordOfTheDaySection::before {
+  content: "“";
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  font-size: 3.5rem;
+  color: #ffe06699;
+  opacity: 0.22;
+  pointer-events: none;
+  font-family: serif;
+  z-index: 0;
+}
+
+@keyframes happyPop {
+  0% {
+    transform: scale(0.95) translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.wordOfTheDayTitle {
+  font-size: 1.35rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 8px #fffbe7;
+  z-index: 1;
+}
+
+.wordOfTheDayQuote {
+  color: #653cb1;
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.7;
+  padding-left: 18px;
+  border-left: 5px solid #ffe066;
+  background: rgba(255, 253, 228, 0.85);
+  border-radius: 10px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(255, 224, 102, 0.06);
+  z-index: 1;
+  transition: background 0.2s, color 0.2s;
+}
+
+.wordOfTheDayQuote span {
+  color: #ffd600;
+  font-weight: 800;
+  font-size: 1.08rem;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.wordOfTheDayQuote:hover {
+  background: #fffde4;
+}
+
+@media (max-width: 600px) {
+  .wordOfTheDaySection {
+    padding: 14px 6px 10px 10px;
+    border-radius: 12px;
+  }
+  .wordOfTheDayTitle {
+    font-size: 1.08rem;
+  }
+  .wordOfTheDayQuote {
+    font-size: 1.01rem;
+    padding-left: 10px;
+    border-left-width: 3px;
+  }
+  .wordOfTheDaySection::before {
+    font-size: 2.2rem;
+    top: 8px;
+    left: 8px;
+  }
+}

@@ -7,6 +7,7 @@ import { Alert, Button, Spinner, Form, InputGroup } from "react-bootstrap";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import QuestionInfo from "./QuestionInfo";
 import Pagination from "../../Components/Pagination/Pagination.jsx";
+import quotes from "inspirational-quotes";
 
 const Home = () => {
   const [questions, setQuestions] = useState([]);
@@ -23,6 +24,7 @@ const Home = () => {
     hasPreviousPage: false,
   });
   const [searchType, setSearchType] = useState("title"); // NEW: search type
+  const [quote, setQuote] = useState({ text: "", author: "" });
 
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -34,6 +36,36 @@ const Home = () => {
   //Getting The Current Page From the URL Parameters
   const currentPage = parseInt(searchParams.get("page")) || 1;
   const questionsPerPage = 4; //fixed limit
+
+  useEffect(() => {
+    if (!user) return;
+    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const userKey = user.user_id || user.username || "guest";
+    const storageKey = `quoteOfTheDay_${userKey}`;
+    const stored = localStorage.getItem(storageKey);
+    let quoteObj = null;
+    if (stored) {
+      try {
+        quoteObj = JSON.parse(stored);
+      } catch (e) {
+        quoteObj = null;
+      }
+    }
+    if (quoteObj && quoteObj.date === today) {
+      setQuote({ text: quoteObj.text, author: quoteObj.author });
+    } else {
+      const newQuote = quotes.getQuote();
+      setQuote(newQuote);
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          text: newQuote.text,
+          author: newQuote.author,
+          date: today,
+        })
+      );
+    }
+  }, [user]);
 
   useEffect(() => {
     const urlSearchQuery = searchParams.get("search") || "";
@@ -178,8 +210,15 @@ const Home = () => {
             Ask Question
           </Button>
 
-          <div className={styles.welcomeMessage}>
-            Welcome: {user?.username || user?.first_name || "User"}
+          {/* Word/Quote of the Day Section */}
+          <div className={styles.wordOfTheDaySection}>
+            <h3 className={styles.wordOfTheDayTitle}>✨ Quote of the Day</h3>
+            <div className={styles.wordOfTheDayQuote}>
+              “{quote.text}”<br />
+              <span style={{ fontWeight: 600, color: "#653cb1" }}>
+                — {quote.author}
+              </span>
+            </div>
           </div>
         </div>
 

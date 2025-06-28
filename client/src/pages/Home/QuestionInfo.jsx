@@ -74,16 +74,6 @@ const QuestionInfo = ({
     setError("");
   };
 
-  // Handle view tracking
-  const handleView = async () => {
-    try {
-      await questionsAPI.addView(questionId);
-      setViews((prev) => prev + 1);
-    } catch (err) {
-      console.error("Error recording view:", err);
-    }
-  };
-
   // Handle like toggle
   const handleLike = async () => {
     if (!user) {
@@ -152,37 +142,42 @@ const QuestionInfo = ({
         <div className={styles.askQuestion}>
           <div className={styles.askUserInfo}>
             <div className={styles.askUser}>
-              <Link to={path} onClick={handleView}>
+              <Link to={path}>
                 <UserAvatar userId={userId} username={username} size={65} />
               </Link>
               <span className={styles.username}>{username}</span>
             </div>
             <div className={styles.askQuestionText}>
               <p>{title}</p>
+              {/* Stats Row under the title */}
+              <div className={styles.questionStatsRow}>
+                {/* Like button with vote count */}
+                <button
+                  className={`${styles.likeButton} ${
+                    isLiked ? styles.liked : ""
+                  } ${likeLoading ? styles.loading : ""}`}
+                  onClick={handleLike}
+                  disabled={likeLoading}
+                  title={isLiked ? "Unlike" : "Like"}
+                  type="button"
+                >
+                  {isLiked ? (
+                    <FaHeart className={styles.statIcon} />
+                  ) : (
+                    <FaRegHeart className={styles.statIcon} />
+                  )}
+                  <span className={styles.statCount}>{likes}</span>
+                </button>
+                <div className={styles.statItem} title="Views">
+                  <FaEye className={styles.statIcon} />
+                  <span className={styles.statCount}>{views} views</span>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className={styles.askArrow}>
-            {/* Stats Section */}
-            <div className={styles.statsSection}>
-              <div className={styles.statItem}>
-                <FaEye className={styles.statIcon} />
-                <span className={styles.statCount}>{views}</span>
-              </div>
-              <Button
-                variant={isLiked ? "danger" : "outline-danger"}
-                size="sm"
-                onClick={handleLike}
-                disabled={likeLoading}
-                className={styles.likeButton}
-                title={isLiked ? "Unlike" : "Like"}
-              >
-                {isLiked ? <FaHeart /> : <FaRegHeart />}
-                <span className={styles.statCount}>{likes}</span>
-              </Button>
-            </div>
-
-            {/* Show edit and delete buttons only for question owner */}
+            {/* Only keep action buttons for owners here, remove old statsSection and like button */}
             {isOwner && (
               <div className={styles.actionButtons}>
                 <Button
@@ -206,7 +201,7 @@ const QuestionInfo = ({
               </div>
             )}
 
-            <Link to={path} onClick={handleView}>
+            <Link to={path}>
               <FaAngleRight className={styles.icon} size={25} />
             </Link>
           </div>

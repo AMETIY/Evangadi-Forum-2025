@@ -5,40 +5,59 @@ import { profileAPI } from "../../utils/api";
 
 const UserAvatar = ({ userId, username, size = 48 }) => {
   const [avatar, setAvatar] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
+
     const fetchAvatar = async () => {
+      if (!userId) {
+        setAvatar(null);
+        return;
+      }
+
+      // Skip API call if we've already had an error (to prevent continuous flickering)
+      if (hasError) {
+        setAvatar(null);
+        return;
+      }
+
       try {
-        // Try to fetch the profile for the given userId
-        const res = (await profileAPI.getProfileByUserId)
-          ? await profileAPI.getProfileByUserId(userId)
-          : null;
+        setIsLoading(true);
+
+        const response = await profileAPI.getProfileByUserId(userId);
+
         if (
           isMounted &&
-          res &&
-          res.data &&
-          res.data.profile &&
-          res.data.profile.profile_picture
+          response?.data?.success &&
+          response.data.profile?.profile_picture
         ) {
-          setAvatar(res.data.profile.profile_picture);
+          setAvatar(response.data.profile.profile_picture);
         } else {
           setAvatar(null);
         }
-      } catch {
-        setAvatar(null);
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error fetching avatar for user", userId, ":", error);
+          setAvatar(null);
+          setHasError(true);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
-    if (userId && profileAPI.getProfileByUserId) {
-      fetchAvatar();
-    } else {
-      setAvatar(null);
-    }
+
+    fetchAvatar();
+
     return () => {
       isMounted = false;
     };
-  }, [userId]);
+  }, [userId, hasError]);
 
+  // Show profile picture if available
   if (avatar) {
     return (
       <img
@@ -46,10 +65,16 @@ const UserAvatar = ({ userId, username, size = 48 }) => {
         alt={username || "User Avatar"}
         className={styles.avatar}
         style={{ width: size, height: size }}
-        onError={(e) => (e.target.src = "/default-avatar.png")}
+        onError={(e) => {
+          e.target.style.display = "none";
+          setAvatar(null);
+          setHasError(true);
+        }}
       />
     );
   }
+
+  // Show default avatar (no flickering)
   return (
     <FaUserCircle
       className={styles.avatar}

@@ -1,0 +1,66 @@
+/* Slick, transparent, and modern modal styles */
+
+.customModal .modal-content {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(60, 60, 90, 0.18);
+  border: 1px solid rgba(200, 200, 220, 0.18);
+  padding: 0;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.customModal .modal-content:hover {
+  box-shadow: 0 12px 40px rgba(60, 60, 90, 0.22);
+}
+
+.modalHeader {
+  background: transparent;
+  border-bottom: none;
+  padding: 1.2rem 2rem 0.5rem 2rem;
+}
+
+.modalTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #653cb1;
+  letter-spacing: 0.01em;
+}
+
+.modalBody {
+  background: transparent;
+  padding: 1.2rem 2rem 1rem 2rem;
+  font-size: 1.08rem;
+  color: #2d3748;
+  font-weight: 500;
+  text-align: center;
+}
+
+.modalFooter {
+  background: transparent;
+  border-top: none;
+  padding: 0.8rem 2rem 1.2rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .customModal .modal-content {
+    padding: 0;
+    border-radius: 12px;
+  }
+  .modalHeader,
+  .modalBody,
+  .modalFooter {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .modalTitle {
+    font-size: 1.1rem;
+  }
+  .modalBody {
+    font-size: 0.98rem;
+  }
+}

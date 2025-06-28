@@ -7,7 +7,7 @@ import { questionsAPI } from "../../utils/api";
 import { useEffect } from "react";
 import { Alert, Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { MdCancel } from "react-icons/md";
-import styles from './EditQuestionPage.module.css'
+import styles from "./EditQuestionPage.module.css";
 
 const EditQuestionPage = () => {
   const [loading, setLoading] = useState(true);
@@ -25,47 +25,45 @@ const EditQuestionPage = () => {
   const descriptionRef = useRef();
   const tagRef = useRef();
 
-   //Tag Options
-   const tagOptions = [
-    { value: 'javascript', label: 'JavaScript' },
-    { value: 'react', label: 'React' },
-    { value: 'nodejs', label: 'Node.js' },
-    { value: 'python', label: 'Python' },
-    { value: 'css', label: 'CSS' },
-    { value: 'html', label: 'HTML' },
-    { value: 'database', label: 'Database' },
-    { value: 'sql', label: 'SQL' },
-    { value: 'mongodb', label: 'MongoDB' },
-    { value: 'api', label: 'API' },
-    { value: 'frontend', label: 'Frontend' },
-    { value: 'backend', label: 'Backend' },
-    { value: 'fullstack', label: 'Full Stack' },
-    { value: 'mobile', label: 'Mobile Development' },
-    { value: 'android', label: 'Android' },
-    { value: 'ios', label: 'iOS' },
-    { value: 'vue', label: 'Vue.js' },
-    { value: 'angular', label: 'Angular' },
-    { value: 'php', label: 'PHP' },
-    { value: 'java', label: 'Java' },
-    { value: 'csharp', label: 'C#' },
-    { value: 'cpp', label: 'C++' },
-    { value: 'git', label: 'Git' },
-    { value: 'devops', label: 'DevOps' },
-    { value: 'aws', label: 'AWS' },
-    { value: 'docker', label: 'Docker' },
-    { value: 'testing', label: 'Testing' },
-    { value: 'debugging', label: 'Debugging' },
-    { value: 'performance', label: 'Performance' },
-    { value: 'security', label: 'Security' },
-    { value: 'ui-ux', label: 'UI/UX' },
-    { value: 'algorithms', label: 'Algorithms' },
-    { value: 'data-structures', label: 'Data Structures' },
-    { value: 'career', label: 'Career' },
-    { value: 'general', label: 'General' },
-    { value: 'other', label: 'Other' }
+  //Tag Options
+  const tagOptions = [
+    { value: "javascript", label: "JavaScript" },
+    { value: "react", label: "React" },
+    { value: "nodejs", label: "Node.js" },
+    { value: "python", label: "Python" },
+    { value: "css", label: "CSS" },
+    { value: "html", label: "HTML" },
+    { value: "database", label: "Database" },
+    { value: "sql", label: "SQL" },
+    { value: "mongodb", label: "MongoDB" },
+    { value: "api", label: "API" },
+    { value: "frontend", label: "Frontend" },
+    { value: "backend", label: "Backend" },
+    { value: "fullstack", label: "Full Stack" },
+    { value: "mobile", label: "Mobile Development" },
+    { value: "android", label: "Android" },
+    { value: "ios", label: "iOS" },
+    { value: "vue", label: "Vue.js" },
+    { value: "angular", label: "Angular" },
+    { value: "php", label: "PHP" },
+    { value: "java", label: "Java" },
+    { value: "csharp", label: "C#" },
+    { value: "cpp", label: "C++" },
+    { value: "git", label: "Git" },
+    { value: "devops", label: "DevOps" },
+    { value: "aws", label: "AWS" },
+    { value: "docker", label: "Docker" },
+    { value: "testing", label: "Testing" },
+    { value: "debugging", label: "Debugging" },
+    { value: "performance", label: "Performance" },
+    { value: "security", label: "Security" },
+    { value: "ui-ux", label: "UI/UX" },
+    { value: "algorithms", label: "Algorithms" },
+    { value: "data-structures", label: "Data Structures" },
+    { value: "career", label: "Career" },
+    { value: "general", label: "General" },
+    { value: "other", label: "Other" },
   ];
-
-
 
   const fetchQuestion = async () => {
     try {
@@ -99,11 +97,9 @@ const EditQuestionPage = () => {
     }
   };
 
-
   useEffect(() => {
     fetchQuestion();
   }, [id]);
-
 
   //handling submit
   const handleSubmit = async (e) => {
@@ -119,7 +115,11 @@ const EditQuestionPage = () => {
     };
 
     // validation
-    if (!updatedData.title ||!updatedData.question ||!updatedData.description) {
+    if (
+      !updatedData.title ||
+      !updatedData.question ||
+      !updatedData.description
+    ) {
       setError("Please fill in all required fields");
       // Focus on the first empty field
       if (!updatedData.title) {
@@ -165,9 +165,12 @@ const EditQuestionPage = () => {
 
       if (response.data.success) {
         setSuccess("Question Updated Successfully");
+        // Scroll to top to show success message
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        // After a short delay, navigate to home
         setTimeout(() => {
-          navigate(`/question/${id}`);
-        }, 1500);
+          navigate("/home");
+        }, 2000);
       } else {
         setError(response.data.error);
       }
@@ -184,9 +187,8 @@ const EditQuestionPage = () => {
   };
 
   const handleCancel = () => {
-    navigate(`/question/${id}`)
-  }
-
+    navigate(`/question/${id}`);
+  };
 
   if (loading) {
     return (
@@ -199,109 +201,106 @@ const EditQuestionPage = () => {
     );
   }
 
-
   return (
     <Container className={`py-4 ${styles.edit}`}>
       <Card>
         <Card.Header>
-            <h2>Edit Question</h2>
+          <h2>Edit Question</h2>
         </Card.Header>
 
         <Card.Body>
-            {error && (
-                <Alert variant = 'danger' className = 'mb-3'>
-                    {error}
-                </Alert>
-            )}
+          {error && (
+            <Alert variant="danger" className="mb-3">
+              {error}
+            </Alert>
+          )}
 
-            {success && (
-                <Alert variant = 'success' className = 'mb-3'>
-                    {success}
-                </Alert>
-            )}
+          {success && (
+            <Alert variant="success" className="mb-3">
+              {success}
+            </Alert>
+          )}
 
-            <Form onSubmit = {handleSubmit}>
-                <Form.Group className = 'mb-3'>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                    type = 'text'
-                    ref = {titleRef}
-                    placeholder = 'Enter a Descriptive Title For Your Question'
-                    maxLength = {100}
-                    
-                    />
-                    <Form.Text className = 'text-muted'>
-                        max. 100 characters
-                    </Form.Text>
-                </Form.Group>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                ref={titleRef}
+                placeholder="Enter a Descriptive Title For Your Question"
+                maxLength={100}
+              />
+              <Form.Text className="text-muted">max. 100 characters</Form.Text>
+            </Form.Group>
 
-                <Form.Group className = 'mb-3'>
-                    <Form.Label>Question</Form.Label>
-                    <Form.Control
-                    type = 'text'
-                    ref = {questionRef}
-                    placeholder = 'What is Your Question'
-                    maxLength = {100}
-                     
-                    />
-                    <Form.Text className = 'text-muted'>
-                        max. 100 characters
-                    </Form.Text>
-                </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Question</Form.Label>
+              <Form.Control
+                type="text"
+                ref={questionRef}
+                placeholder="What is Your Question"
+                maxLength={100}
+              />
+              <Form.Text className="text-muted">max. 100 characters</Form.Text>
+            </Form.Group>
 
-                <Form.Group className = 'mb-3'>
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                    as = 'textarea'
-                    rows = {5}
-                    type = 'text'
-                    ref = {descriptionRef}
-                    placeholder = 'Provide a Details About Your Question For Clarity'
-                    maxLength = {255}
-                     
-                    />
-                    <Form.Text className = 'text-muted'>
-                        max. 100 characters
-                    </Form.Text>
-                </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={5}
+                type="text"
+                ref={descriptionRef}
+                placeholder="Provide a Details About Your Question For Clarity"
+                maxLength={255}
+              />
+              <Form.Text className="text-muted">max. 100 characters</Form.Text>
+            </Form.Group>
 
-                <Form.Group className = 'mb-4'>
-                    <Form.Label>Tag</Form.Label>
-                    <Form.Select
-                     ref = {tagRef}
-                     aria-label = 'Select a Tag For Your Questions'
-                    >
-                        {tagOptions.map((option) => (
-                            <option key = {option.value} value = {option.va}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </Form.Select>
-                    <Form.Text className = 'text-muted'>
-                        Choose a category that best describes your question
-                    </Form.Text>
-                </Form.Group>
+            <Form.Group className="mb-4">
+              <Form.Label>Tag</Form.Label>
+              <Form.Select
+                ref={tagRef}
+                aria-label="Select a Tag For Your Questions"
+              >
+                {tagOptions.map((option) => (
+                  <option key={option.value} value={option.va}>
+                    {option.label}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Text className="text-muted">
+                Choose a category that best describes your question
+              </Form.Text>
+            </Form.Group>
 
-                <div className = 'd-flex gap-2'>
-                    <Button type = 'submit' variant = 'outline-primary' disabled = {submitting}>
-                        {submitting ? (
-                            <>
-                            <Spinner animation = 'border' size = 'sm' className = 'me-2' />
-                            updating...
-                            </>
-                        ): (
-                            'Update Question'
-                        )}
-                    </Button>
+            <div className="d-flex gap-2">
+              <Button
+                type="submit"
+                variant="outline-primary"
+                disabled={submitting}
+              >
+                {submitting ? (
+                  <>
+                    <Spinner animation="border" size="sm" className="me-2" />
+                    updating...
+                  </>
+                ) : (
+                  "Update Question"
+                )}
+              </Button>
 
-                    <Button type = 'button' variant = 'secondary' onClick = {handleCancel} disabled = {submitting}>
-                        <MdCancel />
-                    </Button>
-                </div>
-            </Form>
-
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleCancel}
+                disabled={submitting}
+              >
+                <MdCancel />
+              </Button>
+            </div>
+          </Form>
         </Card.Body>
-
       </Card>
     </Container>
   );

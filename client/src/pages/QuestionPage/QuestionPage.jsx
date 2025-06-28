@@ -30,12 +30,36 @@ const QuestionPage = () => {
     }
   }, [id, isAuthenticated, loading, navigate]);
 
+  // Record view once when component mounts
+  useEffect(() => {
+    if (!loading && isAuthenticated && id) {
+      const today = new Date().toDateString();
+      const viewKey = `viewed_${id}_${today}`;
+      const alreadyViewed = localStorage.getItem(viewKey);
+
+      // Check if already viewed today
+      if (!alreadyViewed) {
+        localStorage.setItem(viewKey, "true");
+
+        const recordView = async () => {
+          const requestId = Math.random().toString(36).substr(2, 9);
+          try {
+            await questionsAPI.addView(id);
+          } catch (viewErr) {
+            localStorage.removeItem(viewKey);
+          }
+        };
+        recordView();
+      }
+    }
+  }, [id, isAuthenticated, loading]);
+
   //Handle displayedAnswer changes
   useEffect(() => {
     if (allAnswers.length > 0) {
       setAnswers(allAnswers.slice(0, displayedAnswer));
     }
-  }, [displayedAnswer, allAnswers, id]);
+  }, [displayedAnswer, allAnswers]);
 
   const fetchQuestionAndAnswers = async () => {
     try {
@@ -51,14 +75,6 @@ const QuestionPage = () => {
       //Setting question data
       if (questionRes.data.success) {
         setQuestionData(questionRes.data.question || {});
-
-        // Record view for this question
-        try {
-          await questionsAPI.addView(id);
-        } catch (viewErr) {
-          console.error("Error recording view:", viewErr);
-          // Don't fail the whole request if view recording fails
-        }
       } else {
         setError("Questions Not Found");
         return;
