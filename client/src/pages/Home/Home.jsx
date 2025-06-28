@@ -339,6 +339,8 @@ const Home = () => {
                   userId={question.user_id}
                   questionId={question.question_id}
                   onQuestionDeleted={handleQuestionDeleted}
+                  viewCount={question.view_count || 0}
+                  likeCount={question.like_count || 0}
                 />
               ))
             )}

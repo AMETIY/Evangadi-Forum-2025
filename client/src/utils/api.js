@@ -127,6 +127,15 @@ export const questionsAPI = {
   updateQuestion: (id, questionData) =>
     axiosInstance.patch(`/questions/${id}`, questionData), //questionId
   deleteQuestion: (id) => axiosInstance.delete(`/questions/${id}`), //questionId
+
+  // New methods for views and likes
+  addView: (questionId) => axiosInstance.post(`/questions/${questionId}/view`),
+  toggleLike: (questionId) =>
+    axiosInstance.post(`/questions/${questionId}/like`),
+  getStats: (questionIds) =>
+    axiosInstance.get(
+      `/questions/stats/batch?questionIds=${questionIds.join(",")}`
+    ),
 };
 
 // Answers API calls

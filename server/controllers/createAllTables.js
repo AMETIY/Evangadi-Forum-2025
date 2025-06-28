@@ -5,6 +5,8 @@ import {
   answers,
   profiles,
   password_history,
+  question_views,
+  question_likes,
 } from "../schema/tables.js";
 
 const createTableIfNotExists = async (tableName, createStatement) => {
@@ -137,6 +139,8 @@ export const createAllTables = async () => {
     await createTableIfNotExists("questions", questions);
     await createTableIfNotExists("answers", answers);
     await createTableIfNotExists("password_history", password_history);
+    await createTableIfNotExists("question_views", question_views);
+    await createTableIfNotExists("question_likes", question_likes);
 
     // Update existing users table for password reset
     await updateUsersTableForPasswordReset();

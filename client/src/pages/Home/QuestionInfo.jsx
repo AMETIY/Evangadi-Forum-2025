@@ -1,8 +1,16 @@
 import React from "react";
 import styles from "./QuestionInfo.module.css";
-import { FaAngleRight, FaEdit, FaTrash, FaUserCircle } from "react-icons/fa";
+import {
+  FaAngleRight,
+  FaEdit,
+  FaTrash,
+  FaUserCircle,
+  FaEye,
+  FaHeart,
+  FaRegHeart,
+} from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { questionsAPI } from "../../utils/api";
 import { Alert, Button } from "react-bootstrap";
@@ -15,10 +23,16 @@ const QuestionInfo = ({
   questionId,
   userId,
   onQuestionDeleted,
+  viewCount = 0,
+  likeCount = 0,
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState("");
+  const [views, setViews] = useState(viewCount);
+  const [likes, setLikes] = useState(likeCount);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeLoading, setLikeLoading] = useState(false);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -28,6 +42,28 @@ const QuestionInfo = ({
   //Here We Check if current user is the owner of this question
   const isOwner = user && user.user_id === userId;
 
+  // Check if user has liked this question
+  useEffect(() => {
+    const checkUserLike = async () => {
+      if (user) {
+        try {
+          const response = await questionsAPI.getStats([questionId]);
+          if (response.data.success) {
+            const stats = response.data.data[questionId];
+            if (stats) {
+              setViews(stats.views);
+              setLikes(stats.likes);
+            }
+          }
+        } catch (err) {
+          console.error("Error checking user like status:", err);
+        }
+      }
+    };
+
+    checkUserLike();
+  }, [questionId, user]);
+
   //Function For edit button click
   const handleEdit = () => {
     navigate(`/edit/${questionId}`);
@@ -36,6 +72,44 @@ const QuestionInfo = ({
   const handelDeleteClick = () => {
     setShowDeleteModal(true);
     setError("");
+  };
+
+  // Handle view tracking
+  const handleView = async () => {
+    try {
+      await questionsAPI.addView(questionId);
+      setViews((prev) => prev + 1);
+    } catch (err) {
+      console.error("Error recording view:", err);
+    }
+  };
+
+  // Handle like toggle
+  const handleLike = async () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    try {
+      setLikeLoading(true);
+      const response = await questionsAPI.toggleLike(questionId);
+
+      if (response.data.success) {
+        if (response.data.action === "liked") {
+          setLikes((prev) => prev + 1);
+          setIsLiked(true);
+        } else {
+          setLikes((prev) => prev - 1);
+          setIsLiked(false);
+        }
+      }
+    } catch (err) {
+      console.error("Error toggling like:", err);
+      setError("Failed to update like. Please try again.");
+    } finally {
+      setLikeLoading(false);
+    }
   };
 
   //After The user Clicked the Delete Button and After Confirming to Delete in the Modal
@@ -78,7 +152,7 @@ const QuestionInfo = ({
         <div className={styles.askQuestion}>
           <div className={styles.askUserInfo}>
             <div className={styles.askUser}>
-              <Link to={path}>
+              <Link to={path} onClick={handleView}>
                 <UserAvatar userId={userId} username={username} size={65} />
               </Link>
               <span className={styles.username}>{username}</span>
@@ -89,6 +163,25 @@ const QuestionInfo = ({
           </div>
 
           <div className={styles.askArrow}>
+            {/* Stats Section */}
+            <div className={styles.statsSection}>
+              <div className={styles.statItem}>
+                <FaEye className={styles.statIcon} />
+                <span className={styles.statCount}>{views}</span>
+              </div>
+              <Button
+                variant={isLiked ? "danger" : "outline-danger"}
+                size="sm"
+                onClick={handleLike}
+                disabled={likeLoading}
+                className={styles.likeButton}
+                title={isLiked ? "Unlike" : "Like"}
+              >
+                {isLiked ? <FaHeart /> : <FaRegHeart />}
+                <span className={styles.statCount}>{likes}</span>
+              </Button>
+            </div>
+
             {/* Show edit and delete buttons only for question owner */}
             {isOwner && (
               <div className={styles.actionButtons}>
@@ -113,7 +206,7 @@ const QuestionInfo = ({
               </div>
             )}
 
-            <Link to={path}>
+            <Link to={path} onClick={handleView}>
               <FaAngleRight className={styles.icon} size={25} />
             </Link>
           </div>
