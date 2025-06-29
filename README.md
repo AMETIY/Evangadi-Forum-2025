@@ -733,6 +733,9 @@ SOFTWARE.
 - 🌐 **Open Source Community** - For the countless libraries and tools
 - 👥 **Beta Testers** - For valuable feedback and bug reports
 
+## 📌 Notes
+This is a practice project built to learn full-stack integration and improve React + Node.js skills.
+
 ## 📊 Project Stats
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/yourusername/evangadi-forum)
